@@ -1,0 +1,23 @@
+{
+  "schema": 2,
+  "version": "0.1.1",
+  "experimental": true,
+  "archives": {
+    "model_regular.npk": {
+      "originalSha256": "e529397b3635e2472316f0743105ded28b359763b2fd8694620b9fdfcad9f81d",
+      "resources": 318,
+      "legacyPatchedHashes": [
+        "29297243765dadff0084e550d0bbb0b490e9e2ebae7a237c84f294736a3808a4"
+      ],
+      "patchedSha256": "8c5b33cf148cc5d1fc21dbe5ed289f64594e5f9800ed59f7cc55077f49ba057a"
+    },
+    "shader.npk": {
+      "originalSha256": "2494677b6d0cb2283dde51ecd9bbb7ec9c14ee12334a083ca1d649f3f5a8c586",
+      "resources": 2,
+      "legacyPatchedHashes": [
+        "df9989c1f326ffbd7cdc59e414f88c8dbd647a8fd5db704d67a3d2cc83a7a2b3"
+      ],
+      "patchedSha256": "4850b70512b8374bde56514dc5c1e54057a34d65fdc957e55ae5264c2cfc95a3"
+    }
+  }
+}

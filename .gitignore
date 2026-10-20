@@ -1,0 +1,7 @@
+node_modules/
+release/
+inputs/
+*.log
+
+__pycache__/
+app/data/*.npk

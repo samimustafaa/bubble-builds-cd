@@ -1,0 +1,60 @@
+{
+  "name": "sg0hann-bubble-builds",
+  "version": "0.1.1",
+  "productName": "Bubble Builds - sg0hann",
+  "description": "Experimental Creative Destruction build appearance presets with original backups",
+  "author": "sg0hann",
+  "main": "app/main.cjs",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.cjs",
+    "build:win": "electron-builder --win nsis --x64 --publish never"
+  },
+  "dependencies": {
+    "electron-updater": "6.8.9"
+  },
+  "devDependencies": {
+    "electron": "44.9.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "com.sg0hann.bubblebuilds",
+    "productName": "Bubble Builds - sg0hann",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "app/**/*"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "Bubble-Builds-${version}-Setup.exe",
+      "executableName": "Bubble Builds - sg0hann",
+      "icon": "app/assets/app.ico",
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowElevation": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Bubble Builds - sg0hann",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true,
+      "differentialPackage": false
+    },
+    "publish": {
+      "provider": "generic",
+      "url": "https://github.com/samimustafaa/bubble-builds-cd/releases/latest/download"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samimustafaa/bubble-builds-cd.git"
+  }
+}
