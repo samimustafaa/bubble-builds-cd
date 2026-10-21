@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.4",
+  "version": "0.1.5",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -10,7 +10,28 @@
         "29297243765dadff0084e550d0bbb0b490e9e2ebae7a237c84f294736a3808a4"
       ],
       "semanticByPreset": {
-        "bubble": "e80bc8cdb451aa0f7b723e0f653ba90cf966f807592bf1d1e797aa7feb0349ac"
+        "bubble:animated": "e80bc8cdb451aa0f7b723e0f653ba90cf966f807592bf1d1e797aa7feb0349ac",
+        "bubble:still": "e80bc8cdb451aa0f7b723e0f653ba90cf966f807592bf1d1e797aa7feb0349ac",
+        "ceramic:animated": "2d6819d1fe68f33b99da8443fc18a2c7493992a968fa42972fad95f2edb41291",
+        "ceramic:still": "2d6819d1fe68f33b99da8443fc18a2c7493992a968fa42972fad95f2edb41291",
+        "obsidian:animated": "fba47675340c7c8a193c5a7c7757c5236169b0a94c01700aad55ac69e8def8da",
+        "obsidian:still": "fba47675340c7c8a193c5a7c7757c5236169b0a94c01700aad55ac69e8def8da",
+        "silver:animated": "08d82e06742dd86c7970b5fe1e27e1f7c5c15156f76e0157f226917f103e9257",
+        "silver:still": "08d82e06742dd86c7970b5fe1e27e1f7c5c15156f76e0157f226917f103e9257",
+        "aqua:animated": "2403c69ed74e06ec361763e57a4d830001be4717c35cce104fcef163dbf91f2e",
+        "aqua:still": "2403c69ed74e06ec361763e57a4d830001be4717c35cce104fcef163dbf91f2e",
+        "mint:animated": "1ab8ee9329b61b539119170bee53dd4959f9f85c7469e2ced03846246b9280a8",
+        "mint:still": "1ab8ee9329b61b539119170bee53dd4959f9f85c7469e2ced03846246b9280a8",
+        "opal:animated": "94037819456fdf0eb69d68dcf413b15db4aeee9abd81c3829c263930c34ed409",
+        "opal:still": "94037819456fdf0eb69d68dcf413b15db4aeee9abd81c3829c263930c34ed409",
+        "clay:animated": "7d4b88a56ce65774f6303537139048b0e13572b29c48d455100d1a48066fb22d",
+        "clay:still": "7d4b88a56ce65774f6303537139048b0e13572b29c48d455100d1a48066fb22d",
+        "slate:animated": "bfd02f6ccf0c166034f7e533f742685672d47e443c74ecba1a5dc5960a0914c7",
+        "slate:still": "bfd02f6ccf0c166034f7e533f742685672d47e443c74ecba1a5dc5960a0914c7",
+        "champagne:animated": "754c7ae8982e33b30b2d41552e3e1fb6e766687be0d70843cac0c323789de41d",
+        "champagne:still": "754c7ae8982e33b30b2d41552e3e1fb6e766687be0d70843cac0c323789de41d",
+        "ink:animated": "5de06c320a4d16c60767eca284fbccadfb63659da83071eb6b9b7ccf32a849db",
+        "ink:still": "5de06c320a4d16c60767eca284fbccadfb63659da83071eb6b9b7ccf32a849db"
       }
     },
     "shader.npk": {
@@ -20,7 +41,28 @@
         "df9989c1f326ffbd7cdc59e414f88c8dbd647a8fd5db704d67a3d2cc83a7a2b3"
       ],
       "semanticByPreset": {
-        "bubble": "bf022476e917699f26601a4b009db965766d411be925213a427532b272f6806f"
+        "bubble:animated": "bf022476e917699f26601a4b009db965766d411be925213a427532b272f6806f",
+        "bubble:still": "bf022476e917699f26601a4b009db965766d411be925213a427532b272f6806f",
+        "ceramic:animated": "df0e4e393bd46c5435459322e57a188c5e54a35e3303bcc14745342b152878fb",
+        "ceramic:still": "6e78e57ce415a657f976d7042a5c2d9ad5ef11227a34e2a4964d9e2e5d3eb864",
+        "obsidian:animated": "dcc2314aa466bb393557c08ad4d5c7949cf7470fef7fb6bb6d1f0f7917e6f46b",
+        "obsidian:still": "6e12c1246b477cf4e93d77427b730f576c51f62399fff15dbe6aba8e0e7087a2",
+        "silver:animated": "495ef6adef69c466893775d7696d4885d928387cbdbb27c3e779e10f73491d68",
+        "silver:still": "6fa4193f4d76a959882a86b838462af0db1dadb910f5babc2f901831dc944d89",
+        "aqua:animated": "bc7b21c18ac47eccafc612171540e451b78bb75f9c3dce2218345f026b4f5252",
+        "aqua:still": "75e7e8e8b4e4260a91cad59221d61ef5cc5a7551fe9569554f1c1a99abd99625",
+        "mint:animated": "9b5d7086dfbb894e6c5cccb4954061e3c84c9b0af882e2bd0525a4617c3dcf28",
+        "mint:still": "9632ecd031688f2d67bc4aa39b1b0a72a59e6e1fe999221c62dff3b77758a57f",
+        "opal:animated": "77f5c8c13a14761b1d9303dd95ce29bf9877bd0200be52edfb0dcdb4e1b928f3",
+        "opal:still": "0af18c65411f0ecccb79e7874330cebeadeb3090c6ddc8bd80a7dbdd8ed2fac6",
+        "clay:animated": "94f388174421913d2f3ee10e3139990629e2395492c2e4cced7236b259be4dbc",
+        "clay:still": "693f50f332f5913f35cb586c09a1849c71fe73a3e5786d5df8b2e9f6a8214323",
+        "slate:animated": "42a5522615ae6f3069e00ffce4edbd42aa8c7cf7b90805b8ef49cf75ce0df453",
+        "slate:still": "67d5b8916fbaac0bd9ebe8a1c02dacebdcbbcdcf150c061241a352dac4fc6752",
+        "champagne:animated": "50730e0b51ae88847130c69cb021c7a0a7873f6ddb837b4a9004654e95ef84f9",
+        "champagne:still": "8885b4af3df450d448587023a002079b8985f69d9ef512d714f1b5d530964209",
+        "ink:animated": "54c847d905b80402c063111a7efacabd880c81c7ecb5318a8bce5fd62e6dfd25",
+        "ink:still": "5b099ff0de368c6ec9322b5eaa0237113bff5ac17f54caf291ebd55196347c5a"
       }
     }
   }

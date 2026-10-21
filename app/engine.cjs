@@ -2,7 +2,7 @@
 const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto');
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const {patchArchive,mobileConfig,PRESETS}=require('./patcher.cjs');
-async function localBuilder({source,manifest,preset}){const output={'neox.xml':mobileConfig(source['neox.xml'])};for(const name of ['model_regular.npk','shader.npk'])output['res/'+name]=preset!=='mobile'?patchArchive(source['res/'+name],name,manifest.archives[name],preset):source['res/'+name];return output;}
+async function localBuilder({source,manifest,preset,animated=true}){const output={'neox.xml':mobileConfig(source['neox.xml'])};for(const name of ['model_regular.npk','shader.npk'])output['res/'+name]=preset!=='mobile'?patchArchive(source['res/'+name],name,manifest.archives[name],preset,animated):source['res/'+name];return output;}
 const TARGETS=['neox.xml','res/model_regular.npk','res/shader.npk'];
 async function atomic(file,data){
  await fs.mkdir(path.dirname(file),{recursive:true});const tmp=file+'.'+crypto.randomUUID()+'.tmp';
@@ -58,7 +58,7 @@ class BuildEngine{
   }
   r.pending=false;r.preset='Restored backup';r.lastHashes={};await this.save(root,r);
  }
- async apply(input,preset,progress=()=>{}){
+ async apply(input,preset,progress=()=>{},animated=true){
   if(!['mobile',...Object.keys(PRESETS)].includes(preset))throw Error('Choose a supported preset.');if(this.busy)throw Error('Wait for the current operation.');this.busy=true;
   try{
    const root=await this.root(input);await this.closed(root);let r=await this.record(root);
@@ -66,7 +66,7 @@ class BuildEngine{
    await this.compatible(root,r);const m=await this.manifest(),source={};
    if(r)await this.verifyBackups(root,r);
    for(let i=0;i<TARGETS.length;i++)source[TARGETS[i]]=r?(r.files[i].exists?await fs.readFile(path.join(this.dir(root),i+'.bin')):null):await optional(path.join(root,TARGETS[i]));
-   progress('Generating your selected look locally…');const payload=await this.builder({source,manifest:m,preset});
+   progress('Generating your selected look locally…');const payload=await this.builder({source,manifest:m,preset,animated});
    if(!payload||Object.keys(payload).length!==TARGETS.length||TARGETS.some(rel=>!Buffer.isBuffer(payload[rel])))throw Error('The generated patch is incomplete.');
    progress('Saving and verifying your original files…');r=await this.createBackup(root);await this.compatible(root,r);
    r.pending=true;await this.save(root,r);
