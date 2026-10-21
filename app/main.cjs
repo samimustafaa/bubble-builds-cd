@@ -1,10 +1,8 @@
 'use strict';
-const {app,BrowserWindow,ipcMain,dialog,shell,nativeImage}=require('electron');
+const {app,BrowserWindow,ipcMain,dialog,shell}=require('electron');
 const fs=require('node:fs/promises'),path=require('node:path'),{execFile}=require('node:child_process'),{promisify}=require('node:util'),{pathToFileURL}=require('node:url');
 const {BuildEngine,atomic}=require('./engine.cjs'),{Updates}=require('./updates.cjs'),{autoUpdater}=require('electron-updater');
 const run=promisify(execFile),page=pathToFileURL(path.join(__dirname,'index.html')).href;
-const {CustomImage}=require('./custom-image.cjs');
-let customImages,importing=false;
 let win,engine,updates,settings={folder:'',repo:'samimustafaa/bubble-builds-cd'},prefs;
 async function gameStatus(root){
  if(process.platform!=='win32')return {state:'unknown',message:'Apply and Restore run on Windows only.'};
@@ -22,25 +20,22 @@ function handle(channel,fn){ipcMain.handle(channel,async(e,...a)=>{
  try{return {ok:true,value:await fn(...a)};}catch(error){return {ok:false,error:['EACCES','EPERM'].includes(error.code)?'Windows denied access. Close the game and check folder permissions; backups are kept.':error.message};}
 });}
 async function save(){await atomic(prefs,JSON.stringify(settings,null,2));}
-async function state(){let status=null;if(settings.folder)try{status=await engine.status(settings.folder);}catch(e){status={error:e.message,root:settings.folder};}return {version:app.getVersion(),windows:process.platform==='win32',folder:settings.folder,repo:settings.repo,imageMode:settings.imageMode||'stretch',customImage:await customImages.read().catch(()=>null).then(r=>r?{name:r.name,preview:r.preview}:null),status};}
+async function state(){let status=null;if(settings.folder)try{status=await engine.status(settings.folder);}catch(e){status={error:e.message,root:settings.folder};}return {version:app.getVersion(),windows:process.platform==='win32',folder:settings.folder,repo:settings.repo,status};}
 if(!app.requestSingleInstanceLock())app.quit();else{
  app.setAppUserModelId('com.sg0hann.bubblebuilds');
  app.whenReady().then(async()=>{
   const user=app.getPath('userData');prefs=path.join(user,'settings.json');try{settings={...settings,...JSON.parse(await fs.readFile(prefs,'utf8'))};}catch(e){if(e.code!=='ENOENT')dialog.showErrorBox('Settings could not be read','Your backups remain in '+user);}
   settings.repo='samimustafaa/bubble-builds-cd';
-  customImages=new CustomImage(user);
-  engine=new BuildEngine(path.join(__dirname,'data'),user,gameStatus);updates=new Updates(autoUpdater,{packaged:app.isPackaged&&process.platform==='win32',onState:s=>send('update-state',s),canInstall:()=>!engine.busy&&!importing});
+  engine=new BuildEngine(path.join(__dirname,'data'),user,gameStatus);updates=new Updates(autoUpdater,{packaged:app.isPackaged&&process.platform==='win32',onState:s=>send('update-state',s),canInstall:()=>!engine.busy});
   if(settings.repo)try{updates.configure(settings.repo);}catch{settings.repo='';}
   win=new BrowserWindow({width:940,height:720,resizable:false,maximizable:false,show:false,backgroundColor:'#101214',title:'Bubble Builds - sg0hann',icon:path.join(__dirname,'assets/app.png'),autoHideMenuBar:true,webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));win.webContents.on('will-navigate',(e,url)=>{if(url!==page)e.preventDefault();});
   handle('state',state);handle('choose',async()=>{if(engine.busy||updates.busy)throw Error('Wait for the current operation.');const r=await dialog.showOpenDialog(win,{title:'Choose Creative Destruction',defaultPath:settings.folder||'C:\\Creative Destruction',properties:['openDirectory']});if(r.canceled)return state();settings.folder=await engine.root(r.filePaths[0]);await save();return state();});
-  handle('apply',async preset=>{if(updates.busy)throw Error('Wait for the app update.');if(importing)throw Error('Wait for the image import.');const mode=settings.imageMode||'stretch';await engine.apply(settings.folder,preset,s=>send('progress',s),preset==='custom'?await customImages.texture(mode):null);return state();});
-  handle('image',async()=>{if(engine.busy||updates.busy||importing)throw Error('Wait for the current operation.');importing=true;try{const r=await dialog.showOpenDialog(win,{title:'Replace build image',filters:[{name:'Image',extensions:['png','jpg','jpeg','webp']}],properties:['openFile']});if(r.canceled)return null;const file=r.filePaths[0],stat=await fs.stat(file);if(stat.size>20*1024*1024)throw Error('Choose an image smaller than 20 MB.');const img=nativeImage.createFromBuffer(await fs.readFile(file));if(img.isEmpty())throw Error('This image could not be read.');const original=img.getSize();if(original.width*original.height>40000000)throw Error('Choose an image smaller than 40 megapixels.');const scale=Math.min(1,512/Math.max(original.width,original.height)),resized=img.resize({width:Math.max(1,Math.round(original.width*scale)),height:Math.max(1,Math.round(original.height*scale)),quality:'best'}),size=resized.getSize();await customImages.replace({bitmap:resized.toBitmap(),...size,name:path.basename(file),preview:resized.resize({width:Math.max(1,Math.round(size.width*Math.min(1,240/Math.max(size.width,size.height)))),height:Math.max(1,Math.round(size.height*Math.min(1,240/Math.max(size.width,size.height))))}).toDataURL()});return state();}finally{importing=false;}});
-  handle('image-mode',async mode=>{if(engine.busy||updates.busy||importing)throw Error('Wait for the current operation.');if(!['stretch','fit'].includes(mode))throw Error('Choose Stretch or Fit.');settings.imageMode=mode;await save();return null;});
+  handle('apply',async preset=>{if(updates.busy)throw Error('Wait for the app update.');await engine.apply(settings.folder,preset,s=>send('progress',s));return state();});
   handle('restore',async()=>{if(updates.busy)throw Error('Wait for the app update.');await engine.restore(settings.folder,s=>send('progress',s));return state();});
   handle('backups',async()=>{await fs.mkdir(path.join(user,'backups'),{recursive:true});const error=await shell.openPath(path.join(user,'backups'));if(error)throw Error(error);});
   handle('check',()=>updates.check().then(()=>null));handle('update',()=>updates.install());
-  win.on('close',e=>{if(!updates.installing&&(engine.busy||updates.busy||importing)){e.preventDefault();send('progress','Please wait for the current operation to finish.');}});
+  win.on('close',e=>{if(!updates.installing&&(engine.busy||updates.busy)){e.preventDefault();send('progress','Please wait for the current operation to finish.');}});
   win.once('ready-to-show',()=>win.show());await win.loadURL(page);setTimeout(()=>updates.check().catch(()=>{}),2500);
   const timer=setInterval(()=>{if(!updates.busy&&!engine.busy)updates.check().catch(()=>{});},1800000);timer.unref();
   let checking=false;const poll=setInterval(async()=>{if(checking||engine.busy||!settings.folder)return;checking=true;try{send('game-state',await gameStatus(settings.folder));}finally{checking=false;}},10000);poll.unref();
