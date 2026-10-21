@@ -38,10 +38,10 @@ function patchMaterial(b,preset="bubble"){
  if(b.length<4||b.readUInt32LE(0)!==0x0d4159c1||!b.includes(Buffer.from('MaterialGroup\0'))||!(b.includes(Buffer.from('model_regular\\structure\\'))||b.includes(Buffer.from('model_regular\\structure_jj\\'))))return null;
  const out=Buffer.from(b);let hit=false;for(const node of parseBxml(b)){
   if(node.tag==='RenderStates'&&node.attrs.AlphaVal){const a=node.attrs.AlphaVal;if(a.type!==2||a.value!==255)throw Error('Unexpected build alpha value');out.writeInt32LE(preset==='bubble'?245:255,a.start);hit=true;}
-  if(['diffuse_color','u_bright_color'].includes(node.tag)){const a=node.attrs.Value;if(a?.type===6&&a.value.length===4)(preset==='bubble'?[.65,.85,1,1]:[...STYLES[preset].color,1]).forEach((v,j)=>out.writeFloatLE(v,a.start+4+j*4));}
+  if(preset==='bubble'&&['diffuse_color','u_bright_color'].includes(node.tag)){const a=node.attrs.Value;if(a?.type===6&&a.value.length===4)(preset==='bubble'?[.65,.85,1,1]:[...STYLES[preset].color,1]).forEach((v,j)=>out.writeFloatLE(v,a.start+4+j*4));}
  }return hit?out:null;
 }
-const PRESETS={bubble:{name:'Bubble Wrap — TEST 01',label:'Soft Pearl',scale:18,strength:0.025},...STYLES};
+const PRESETS={bubble:{name:'Bubble Wrap — TEST 01',label:'Soft Pearl',scale:18,strength:0.025,number:'00',motion:'Original Soft Pearl · unchanged',quality:'original',preview:'assets/bubble-sample.png'},...STYLES};
 function film(preset){
  const style=preset==='bubble'?PRESETS.bubble:null;if(!style)throw Error('Choose a supported surface preset.');
  // Analytic dome lighting adds apparent depth without changing the build mesh.

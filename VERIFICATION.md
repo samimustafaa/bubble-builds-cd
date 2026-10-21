@@ -1,9 +1,9 @@
-# Verification — 0.1.6
+# Verification — 0.1.8
 
-- 20 selectable presets: Bubble Wrap, Mobile / flat, 18 authored surfaces. Eight additions include six procedural patterned materials and two static lightweight variants.
-- Lightweight, Smooth and Patterned gallery filters; animation is disabled for static surfaces. Lightweight variants have fewer added surface calculations, without a measured FPS claim.
-- Verified 38 preset/motion combinations against supplied original archives; existing 0.1.5 resource digests remain unchanged. Per-mode semantic digests and decoded resource round trips checked for 318 processed material entries and two shader entries per surface.
-- Privately applied all surface/motion variants to copies of the game files, switched to Mobile and restored. Original bytes matched exactly.
-- Windows test suite compiles 108 authored Direct3D 9 shader fixtures, including regular, simplified and PBR variants. The Electron UI test exercises 20 cards, quality filtering, animation setting, Apply, Restore, update dialog and compact-window layout with a mock backend.
+- Six selectable presets: preserved Original Bubble Wrap plus Pearl, Ice, Frost, Lilac and Aqua. Previous non-bubble presets and Mobile are removed from the gallery.
+- New bubble shaders use mesh UVs rather than the regular shader's lightmap atlas coordinates. Derivative-softened domes add subtle shading and specular light while blending with the existing final color. Construction alpha remains untouched. The original shader and material resource hashes are unchanged.
+- Six material samples are rendered offline from the same dome equations and parameters by `node tools/render-bubble-samples.cjs`. They show a UV sample under a fixed assumed base color, not the game scene, mesh, fog or lighting. They replace the AI gameplay concepts.
+- Every preset/motion mode is checked against the supplied original archives, including decoded resource checksums, exact changed-resource counts, and semantic digests. All six presets in both motion modes were also applied to private copies, switched and restored byte-for-byte. No original game files are shipped.
+- Windows tests compile 36 Direct3D 9 fixtures for six presets, both motion modes and regular/simplified/PBR paths. The Electron test verifies six loaded previews, category filtering, Apply, Restore, Updates and compact-window layout with a mock backend.
 
-Actual game acceptance, appearance and performance require Windows gameplay testing. Patterned thumbnails are authored material samples; older thumbnails are concept images. Original build mesh and assembly motion remain unchanged. Animations are continuous surface effects, not placement-triggered assembly replacements.
+Actual game acceptance, UV mapping, visual quality and performance still require gameplay testing on the supported game version. These tests cannot establish that a shader patch matches an AI concept picture.
