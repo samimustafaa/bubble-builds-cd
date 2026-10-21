@@ -29,7 +29,7 @@ class BuildEngine{
   return r;
  }
  async save(root,r){await atomic(path.join(this.dir(root),'record.json'),JSON.stringify(r,null,2));}
- async status(input){const root=await this.root(input),r=await this.record(root);return {root,backup:!!r,pending:!!r?.pending,preset:r?.preset||'Not applied',game:await this.guard(root)};}
+ async status(input){const root=await this.root(input),r=await this.record(root);return {root,backup:!!r,pending:!!r?.pending,preset:r?.preset||'Not applied',appliedVersion:r?.patchVersion||null,hasAppliedFiles:TARGETS.every(rel=>typeof r?.lastHashes?.[rel]==='string'),game:await this.guard(root)};}
  async closed(root){const g=await this.guard(root);if(g.state!=='closed')throw Error(g.message||'Close Creative Destruction before changing builds.');}
  async verifyBackups(root,r){for(let i=0;i<TARGETS.length;i++)if(r.files[i].exists){const b=await fs.readFile(path.join(this.dir(root),i+'.bin'));if(hash(b)!==r.files[i].sha256)throw Error('A backup failed verification. No files were changed.');}}
  async createBackup(root){
@@ -56,7 +56,7 @@ class BuildEngine{
    if(f.exists){await atomic(target,await fs.readFile(path.join(this.dir(root),i+'.bin')));if(hash(await fs.readFile(target))!==f.sha256)throw Error('Restore verification failed.');}
    else await fs.rm(target,{force:true});
   }
-  r.pending=false;r.preset='Restored backup';r.lastHashes={};await this.save(root,r);
+  r.pending=false;r.preset='Restored backup';r.lastHashes={};r.patchVersion=null;await this.save(root,r);
  }
  async apply(input,preset,progress=()=>{},animated=true){
   if(!['mobile',...Object.keys(PRESETS)].includes(preset))throw Error('Choose a supported preset.');if(this.busy)throw Error('Wait for the current operation.');this.busy=true;
@@ -72,7 +72,7 @@ class BuildEngine{
    r.pending=true;await this.save(root,r);
    try{
     for(const [rel,b]of Object.entries(payload)){await this.closed(root);progress('Applying '+rel+'…');await atomic(path.join(root,rel),b);if(hash(await fs.readFile(path.join(root,rel)))!==hash(b))throw Error('File verification failed.');}
-    r.lastHashes=Object.fromEntries(Object.entries(payload).map(([k,b])=>[k,hash(b)]));r.preset=PRESETS[preset]?.name||'Mobile / flat';r.pending=false;r.applied=new Date().toISOString();await this.save(root,r);
+    r.lastHashes=Object.fromEntries(Object.entries(payload).map(([k,b])=>[k,hash(b)]));r.preset=PRESETS[preset]?.name||'Mobile / flat';r.patchVersion=m.version||null;r.pending=false;r.applied=new Date().toISOString();await this.save(root,r);
    }catch(error){
     progress('Recovering original files…');try{await this.restoreFiles(root,r);}catch(e){throw Error(error.message+' Recovery needs attention: '+e.message+' Use Restore Backup with the game closed.');}throw Error(error.message+' Your original backup was restored.');
    }

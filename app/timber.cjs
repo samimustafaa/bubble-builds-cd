@@ -1,4 +1,5 @@
 'use strict';
+const {TIMBER_PARAMETER,TIMBER_MARKER}=require('./material-tag.cjs');
 const TIMBERS={
  timberpine:{name:'Pine Slats — TEST',number:'06',motion:'Pale wood · narrow permanent gaps',quality:'timber',static:true,color:[.84,.63,.39],rows:9,gap:.09,warp:.025,brace:0},
  timberoak:{name:'Warm Oak — TEST',number:'07',motion:'Warm planks · wider permanent gaps',quality:'timber',static:true,color:[.62,.36,.18],rows:7,gap:.16,warp:.04,brace:0},
@@ -7,8 +8,8 @@ const TIMBERS={
 };
 const f=n=>Number(n).toFixed(5)+'f',v=a=>'float3('+a.map(f).join(', ')+')';
 function timberFilm(id,pbr){const s=TIMBERS[id];if(!s)throw Error('Unknown wood preset.');return `// sg0hann persistent timber cutouts: ${s.name}
-// Only structure materials tagged by the local material patch opt into this effect.
-if (abs(sgBuildVariant - 0.73125f) < 0.0001f) {
+// Only structure materials marked through an existing engine parameter opt into this effect.
+if (abs(${TIMBER_PARAMETER} - ${f(TIMBER_MARKER)}) < 0.0001f) {
  float2 sgWoodUV = ${pbr?'psIN.v_texture0.xy':'psIN.uv0'};
  float2 sgTile = frac(sgWoodUV);
  float sgRow = sgWoodUV.y * ${f(s.rows)};

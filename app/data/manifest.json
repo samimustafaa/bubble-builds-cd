@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.9",
+  "version": "0.1.10",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -22,14 +22,14 @@
         "lilac:still": "a298b1f25202fff7abd6fbc33e2854d65f29d6a159ca6811769e3a3c35a4b854",
         "aqua:animated": "a298b1f25202fff7abd6fbc33e2854d65f29d6a159ca6811769e3a3c35a4b854",
         "aqua:still": "a298b1f25202fff7abd6fbc33e2854d65f29d6a159ca6811769e3a3c35a4b854",
-        "timberpine:animated": "81f6398f3984837cf5d23288f9c472785a252e41ef3f98dfa384a384f178418f",
-        "timberpine:still": "81f6398f3984837cf5d23288f9c472785a252e41ef3f98dfa384a384f178418f",
-        "timberoak:animated": "81f6398f3984837cf5d23288f9c472785a252e41ef3f98dfa384a384f178418f",
-        "timberoak:still": "81f6398f3984837cf5d23288f9c472785a252e41ef3f98dfa384a384f178418f",
-        "timberwhite:animated": "81f6398f3984837cf5d23288f9c472785a252e41ef3f98dfa384a384f178418f",
-        "timberwhite:still": "81f6398f3984837cf5d23288f9c472785a252e41ef3f98dfa384a384f178418f",
-        "timberbrace:animated": "81f6398f3984837cf5d23288f9c472785a252e41ef3f98dfa384a384f178418f",
-        "timberbrace:still": "81f6398f3984837cf5d23288f9c472785a252e41ef3f98dfa384a384f178418f"
+        "timberpine:animated": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
+        "timberpine:still": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
+        "timberoak:animated": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
+        "timberoak:still": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
+        "timberwhite:animated": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
+        "timberwhite:still": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
+        "timberbrace:animated": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
+        "timberbrace:still": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4"
       }
     },
     "shader.npk": {
@@ -51,14 +51,14 @@
         "lilac:still": "374d6102116c11ca20608812446cc67123be4726a851a0ad4c56c69715096e41",
         "aqua:animated": "cd76096f23e11b690d97c6cc3b9b13cfb35a1f3bfa915732c05a3636778f58f6",
         "aqua:still": "e2ebdeb8c90fe7fb171874835a2dc1ba2f7767dc237bd3301a1a610696b4e0f6",
-        "timberpine:animated": "44775ea2d5eb6741443cca741314f905dd2a144b67434e753370703ddac401f2",
-        "timberpine:still": "44775ea2d5eb6741443cca741314f905dd2a144b67434e753370703ddac401f2",
-        "timberoak:animated": "cfa2facf1ab74179c4e3ca4fcca63f5893e0db02b16a3f3caf11024cb060b47d",
-        "timberoak:still": "cfa2facf1ab74179c4e3ca4fcca63f5893e0db02b16a3f3caf11024cb060b47d",
-        "timberwhite:animated": "054d641973dcddee9aba31316125b06079f7aefafea1925848699e23422dae3e",
-        "timberwhite:still": "054d641973dcddee9aba31316125b06079f7aefafea1925848699e23422dae3e",
-        "timberbrace:animated": "a5678764707ee0524ffc92ada9fdd7b4bdc45174680cb63ad86abbe504e039fd",
-        "timberbrace:still": "a5678764707ee0524ffc92ada9fdd7b4bdc45174680cb63ad86abbe504e039fd"
+        "timberpine:animated": "6ab4b4150ca8fa723ce8ff9e46a2e5ba392a4cd529a5a960fddff7fc89a7a4c7",
+        "timberpine:still": "6ab4b4150ca8fa723ce8ff9e46a2e5ba392a4cd529a5a960fddff7fc89a7a4c7",
+        "timberoak:animated": "20e10c8376ba8dc302f4d27a08c133f459f516e72b16f178f5b657d31f32a3d6",
+        "timberoak:still": "20e10c8376ba8dc302f4d27a08c133f459f516e72b16f178f5b657d31f32a3d6",
+        "timberwhite:animated": "6b77b7f0b1a18d1dbe55d53eeef41df70ebf67b8df1362c40c1e299eab73a0dd",
+        "timberwhite:still": "6b77b7f0b1a18d1dbe55d53eeef41df70ebf67b8df1362c40c1e299eab73a0dd",
+        "timberbrace:animated": "a99f539dc2551c9691748320c43c316c6f8b26932cd1e558f5473809b757e42e",
+        "timberbrace:still": "a99f539dc2551c9691748320c43c316c6f8b26932cd1e558f5473809b757e42e"
       }
     }
   }
