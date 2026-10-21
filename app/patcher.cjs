@@ -2,6 +2,7 @@
 // Authored patch generator. Reads game files locally; no game archives are bundled.
 const crypto=require('node:crypto'),zlib=require('node:zlib');
 const {STYLES,surfaceFilm}=require('./styles.cjs');
+const {TIMBERS,timberFilm}=require('./timber.cjs'),{tagMaterial}=require('./material-tag.cjs');
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const rol=(n,s)=>(n<<s)|(n>>>(32-s));
 function murmur(b){let h=0x9747b28c,n=b.length,i=0;for(;i+4<=n;i+=4){let k=b.readUInt32LE(i);k=Math.imul(k,0xcc9e2d51);k=rol(k,15);k=Math.imul(k,0x1b873593);h^=k;h=rol(h,13);h=(Math.imul(h,5)+0xe6546b64)|0;}let k=0;for(let j=i;j<n;j++)k|=b[j]<<((j-i)*8);if(i<n){k=Math.imul(k,0xcc9e2d51);k=rol(k,15);k=Math.imul(k,0x1b873593);h^=k;}h^=n;h^=h>>>16;h=Math.imul(h,0x85ebca6b);h^=h>>>13;h=Math.imul(h,0xc2b2ae35);h^=h>>>16;return h>>>0;}
@@ -29,19 +30,21 @@ function parseBxml(b){
  const varint=()=>{let n=0,s=0,c;do{need(1);c=b[i++];n|=(c&127)<<s;s+=7;if(s>28)throw Error('Invalid config index');}while(c&128);return n;};
  const text=()=>{const end=b.indexOf(0,i);if(end<0)throw Error('Truncated config string');const value=b.toString('utf8',i,end);i=end+1;return value;};
  const value=t=>{const start=i;let v;if(t===0)v=null;else if(t===1)v=text();else if(t===2||t===4){need(4);v=b.readInt32LE(i);i+=4;}else if(t===3){need(1);v=b[i++];}else if(t===5){need(4);v=b.readFloatLE(i);i+=4;}else if(t===6){need(4);const n=b.readUInt32LE(i);i+=4;need(n*4);v=Array.from({length:n},(_,j)=>b.readFloatLE(i+j*4));i+=n*4;}else if(t===7||t===8){need(8);v=b.readBigInt64LE(i);i+=8;}else throw Error('Unknown binary value type');return {value:v,type:t,start,end:i};};
- const tags=Array.from({length:varint()},text),attrs=Array.from({length:varint()},text);need(8);i+=8;const count=varint();if(count>10000)throw Error('Too many config nodes');
+ const tags=Array.from({length:varint()},text),attrs=Array.from({length:varint()},text);need(8);const tableMetadata=Buffer.from(b.subarray(i,i+8));i+=8;const count=varint();if(count>10000)throw Error('Too many config nodes');
  const nodes=Array.from({length:count},()=>({tag:tags[varint()],children:varint(),attrs:{}}));
- for(const node of nodes){const n=varint();for(let j=0;j<n;j++){const name=attrs[varint()];need(1);const t=b[i++];node.attrs[name]=value(t);}need(1);node.value=value(b[i++]).value;}
- if(i!==b.length)throw Error('Binary config contains extra bytes');return nodes;
+ const attributeDataOffset=i;
+ for(const node of nodes){const n=varint();for(let j=0;j<n;j++){const name=attrs[varint()];need(1);const t=b[i++];node.attrs[name]=value(t);}need(1);node.valueInfo=value(b[i++]);node.value=node.valueInfo.value;}
+ if(i!==b.length)throw Error('Binary config contains extra bytes');Object.defineProperty(nodes,'tableMetadata',{value:tableMetadata});Object.defineProperty(nodes,'attributeDataOffset',{value:attributeDataOffset});return nodes;
 }
 function patchMaterial(b,preset="bubble"){
  if(b.length<4||b.readUInt32LE(0)!==0x0d4159c1||!b.includes(Buffer.from('MaterialGroup\0'))||!(b.includes(Buffer.from('model_regular\\structure\\'))||b.includes(Buffer.from('model_regular\\structure_jj\\'))))return null;
+ if(TIMBERS[preset])return tagMaterial(b,parseBxml(b));
  const out=Buffer.from(b);let hit=false;for(const node of parseBxml(b)){
   if(node.tag==='RenderStates'&&node.attrs.AlphaVal){const a=node.attrs.AlphaVal;if(a.type!==2||a.value!==255)throw Error('Unexpected build alpha value');out.writeInt32LE(preset==='bubble'?245:255,a.start);hit=true;}
   if(preset==='bubble'&&['diffuse_color','u_bright_color'].includes(node.tag)){const a=node.attrs.Value;if(a?.type===6&&a.value.length===4)(preset==='bubble'?[.65,.85,1,1]:[...STYLES[preset].color,1]).forEach((v,j)=>out.writeFloatLE(v,a.start+4+j*4));}
  }return hit?out:null;
 }
-const PRESETS={bubble:{name:'Bubble Wrap — TEST 01',label:'Soft Pearl',scale:18,strength:0.025,number:'00',motion:'Original Soft Pearl · unchanged',quality:'original',preview:'assets/bubble-sample.png'},...STYLES};
+const PRESETS={bubble:{name:'Bubble Wrap — TEST 01',label:'Soft Pearl',scale:18,strength:0.025,number:'00',motion:'Original Soft Pearl · unchanged',quality:'original',preview:'assets/bubble-sample.png'},...STYLES,...TIMBERS};
 function film(preset){
  const style=preset==='bubble'?PRESETS.bubble:null;if(!style)throw Error('Choose a supported surface preset.');
  // Analytic dome lighting adds apparent depth without changing the build mesh.
@@ -62,7 +65,7 @@ float3 sgPearl = lerp(final_color.rgb, float3(0.68f, 0.83f, 0.94f), 0.48f);
 final_color.rgb = saturate(sgPearl + sgShade * ${style.strength.toFixed(3)}f + sgGlint * sgMask * ${(style.strength*.75).toFixed(3)}f);
 return final_color;`;
 }
-function patchShader(b,preset="bubble",animated=true){const s=b.toString('utf8');if(!(s.startsWith('//scene_cj\r')||s.startsWith('//scene_cj_pbr\r'))||!s.includes('float4 ps_main(PS_INPUT psIN)'))return null;if(!s.includes('float2 local_0')||s.split('return final_color;').length!==2)throw Error('Unexpected build shader');return Buffer.from(s.replace('return final_color;',preset==='bubble'?film(preset):surfaceFilm(preset,s.startsWith('//scene_cj_pbr'),animated)));}
+function patchShader(b,preset="bubble",animated=true){const s=b.toString('utf8');if(!(s.startsWith('//scene_cj\r')||s.startsWith('//scene_cj_pbr\r'))||!s.includes('float4 ps_main(PS_INPUT psIN)'))return null;if(!s.includes('float2 local_0')||s.split('return final_color;').length!==2)throw Error('Unexpected build shader');const timber=!!TIMBERS[preset];const output=s.replace('return final_color;',timber?timberFilm(preset,s.startsWith('//scene_cj_pbr')):preset==='bubble'?film(preset):surfaceFilm(preset,s.startsWith('//scene_cj_pbr'),animated));return Buffer.from(timber?output.replace('float4 ps_main(PS_INPUT psIN)','float sgBuildVariant;\nfloat4 ps_main(PS_INPUT psIN)'):output);}
 function patchArchive(original,name,info,preset="bubble",animated=true){
  if(sha(original)!==info.originalSha256)throw Error('Original archive version differs: '+name);const parsed=parseArchive(original),chunks=[original.subarray(0,parsed.index)];let length=parsed.index,changed=0;const semantic=crypto.createHash('sha256');
  const entries=parsed.entries.map(e=>[...e]);for(const e of entries){const packed=original.subarray(e[1],e[1]+e[2]),raw=decode(packed,e),next=name==='model_regular.npk'?patchMaterial(raw,preset):patchShader(raw,preset,animated);if(!next)continue;
