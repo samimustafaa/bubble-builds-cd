@@ -10,4 +10,6 @@ Includes Bubble Wrap, Mobile / flat, the ten smooth materials, Toon Timber, Blue
 
 **Restore backup** returns the exact files saved before the first Apply. **Updates → Check now → Update & restart** downloads, installs and reopens automatically. Backups stay outside the installation.
 
-Materials are experimental approximations. Preview pictures and material samples are illustrative. Existing build geometry and assembly motion remain. Patches are generated locally from supported game files; no game archives are distributed.
+Materials are experimental approximations. Every preset has an illustrated gameplay concept preview; these are AI-generated material mockups, not captured in-game results. Existing build geometry and assembly motion remain. Patches are generated locally from supported game files; no game archives are distributed.
+
+The gallery uses larger image cards, category badges and a checkmark for the selected preset. The Windows test run checks all 20 preview images and captures both ends of the gallery for each release.

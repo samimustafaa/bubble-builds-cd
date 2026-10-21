@@ -10,14 +10,14 @@ const STYLES={
  slate:{name:'Midnight Slate',number:'08',motion:'Blue rim sweep',color:[.035,.09,.18],power:36,gain:.10},
  champagne:{name:'Champagne Silk',number:'09',motion:'Warm gold glint',color:[.72,.55,.29],power:64,gain:.25},
  ink:{name:'Ink Porcelain',number:'10',motion:'Flowing ink gradient',color:[.86,.85,.80],power:32,gain:.11},
- timber:{name:'Toon Timber',number:'11',motion:'Soft wood sheen',quality:'pattern',color:[.76,.46,.18],power:20,gain:.04,preview:'assets/timber-sample.svg'},
- blueprint:{name:'Blueprint',number:'12',motion:'Scanning technical grid',quality:'pattern',color:[.025,.12,.52],power:20,gain:.03,preview:'assets/blueprint-sample.svg'},
- kintsugi:{name:'Kintsugi',number:'13',motion:'Travelling gold veins',quality:'pattern',color:[.025,.13,.16],power:55,gain:.14,preview:'assets/kintsugi-sample.svg'},
- carbon:{name:'Redline Carbon',number:'14',motion:'Crimson weave sweep',quality:'pattern',color:[.045,.045,.055],power:40,gain:.10,preview:'assets/carbon-sample.svg'},
- aurora:{name:'Aurora Flow',number:'15',motion:'Flowing aurora bands',quality:'pattern',color:[.12,.22,.62],power:45,gain:.15,preview:'assets/aurora-sample.svg'},
- checker:{name:'Porcelain Checker',number:'16',motion:'Soft checker sheen',quality:'pattern',color:[.83,.74,.62],power:30,gain:.10,preview:'assets/checker-sample.svg'},
- lowdetail:{name:'Low Detail',number:'17',motion:'Static matte · fewer added shader calculations',quality:'light',static:true,color:[.47,.59,.66],preview:'assets/lowdetail-sample.svg'},
- ultralight:{name:'Ultra Light',number:'18',motion:'Static flat · minimal surface calculations',quality:'light',static:true,color:[.67,.69,.71],preview:'assets/ultralight-sample.svg'}
+ timber:{name:'Toon Timber',number:'11',motion:'Soft wood sheen',quality:'pattern',color:[.76,.46,.18],power:20,gain:.04,preview:'assets/timber-concept.jpg'},
+ blueprint:{name:'Blueprint',number:'12',motion:'Scanning technical grid',quality:'pattern',color:[.025,.12,.52],power:20,gain:.03,preview:'assets/blueprint-concept.jpg'},
+ kintsugi:{name:'Kintsugi',number:'13',motion:'Travelling gold veins',quality:'pattern',color:[.025,.13,.16],power:55,gain:.14,preview:'assets/kintsugi-concept.jpg'},
+ carbon:{name:'Redline Carbon',number:'14',motion:'Crimson weave sweep',quality:'pattern',color:[.045,.045,.055],power:40,gain:.10,preview:'assets/carbon-concept.jpg'},
+ aurora:{name:'Aurora Flow',number:'15',motion:'Flowing aurora bands',quality:'pattern',color:[.12,.22,.62],power:45,gain:.15,preview:'assets/aurora-concept.jpg'},
+ checker:{name:'Porcelain Checker',number:'16',motion:'Soft checker sheen',quality:'pattern',color:[.83,.74,.62],power:30,gain:.10,preview:'assets/checker-concept.jpg'},
+ lowdetail:{name:'Low Detail',number:'17',motion:'Static matte · fewer added shader calculations',quality:'light',static:true,color:[.47,.59,.66],preview:'assets/lowdetail-concept.jpg'},
+ ultralight:{name:'Ultra Light',number:'18',motion:'Static flat · minimal surface calculations',quality:'light',static:true,color:[.67,.69,.71],preview:'assets/ultralight-concept.jpg'}
 };
 const f=n=>Number(n).toFixed(4)+'f',v=a=>'float3('+a.map(f).join(', ')+')';
 function surfaceFilm(id,pbr,animated=true){
