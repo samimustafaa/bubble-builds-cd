@@ -28,6 +28,6 @@ public static class ShaderCompiler {
 }
 '@
 $files=Get-ChildItem -LiteralPath $Folder -Filter '*.hlsl'
-if($files.Count -lt 60){throw 'Shader fixtures are missing.'}
+if($files.Count -lt 108){throw 'Shader fixtures are missing.'}
 foreach($file in $files){[ShaderCompiler]::Check($file.FullName)}
 Write-Output "Compiled $($files.Count) authored surface shader fixtures for Direct3D 9."

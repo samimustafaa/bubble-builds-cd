@@ -1,10 +1,9 @@
-# Verification — 0.1.5
+# Verification — 0.1.6
 
-- Added ten distinct authored surface shaders plus gallery concept thumbnails. Existing Bubble Wrap TEST 01 and Mobile remain; Custom Image stays removed.
-- Material effects use each game shader's existing normals, view vector and FrameTime input. The off switch freezes the added surface clock. Existing alpha, dissolution and build assembly calculations remain.
-- All 22 surface/motion combinations privately generated from the supplied original archives. Processed 318 material entries and two shader entries per surface. Decoded resources, checksums and per-mode semantic digests verified.
-- Applied all 22 combinations, switched to Mobile and restored copies of the supplied game files. Original bytes matched exactly after Restore.
-- Windows tests compile 60 authored shader fixtures (PBR, normal and simplified paths, animation on/off) for Direct3D 9 ps_3_0. No game shader source is distributed by these fixtures.
-- A Windows Electron smoke test exercises the actual gallery with a mock backend: 12 cards, scroll, selection, animation option, Apply, Restore, settings and fixed-window overflow.
+- 20 selectable presets: Bubble Wrap, Mobile / flat, 18 authored surfaces. Eight additions include six procedural patterned materials and two static lightweight variants.
+- Lightweight, Smooth and Patterned gallery filters; animation is disabled for static surfaces. Lightweight variants have fewer added surface calculations, without a measured FPS claim.
+- Verified 38 preset/motion combinations against supplied original archives; existing 0.1.5 resource digests remain unchanged. Per-mode semantic digests and decoded resource round trips checked for 318 processed material entries and two shader entries per surface.
+- Privately applied all surface/motion variants to copies of the game files, switched to Mobile and restored. Original bytes matched exactly.
+- Windows test suite compiles 108 authored Direct3D 9 shader fixtures, including regular, simplified and PBR variants. The Electron UI test exercises 20 cards, quality filtering, animation setting, Apply, Restore, update dialog and compact-window layout with a mock backend.
 
-Concept images are illustrative; material matching, full game shader integration and in-game acceptance still require a Windows game test. Surface animation is continuous rather than placement-triggered. Original mesh and assembly motion are unchanged.
+Actual game acceptance, appearance and performance require Windows gameplay testing. Patterned thumbnails are authored material samples; older thumbnails are concept images. Original build mesh and assembly motion remain unchanged. Animations are continuous surface effects, not placement-triggered assembly replacements.

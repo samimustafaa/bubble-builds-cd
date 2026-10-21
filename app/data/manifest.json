@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.5",
+  "version": "0.1.6",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -31,7 +31,23 @@
         "champagne:animated": "754c7ae8982e33b30b2d41552e3e1fb6e766687be0d70843cac0c323789de41d",
         "champagne:still": "754c7ae8982e33b30b2d41552e3e1fb6e766687be0d70843cac0c323789de41d",
         "ink:animated": "5de06c320a4d16c60767eca284fbccadfb63659da83071eb6b9b7ccf32a849db",
-        "ink:still": "5de06c320a4d16c60767eca284fbccadfb63659da83071eb6b9b7ccf32a849db"
+        "ink:still": "5de06c320a4d16c60767eca284fbccadfb63659da83071eb6b9b7ccf32a849db",
+        "timber:animated": "bbbee928c749ce35753f2c216a1b42004478fc4453f0d7b25cd4b953996dd3ea",
+        "timber:still": "bbbee928c749ce35753f2c216a1b42004478fc4453f0d7b25cd4b953996dd3ea",
+        "blueprint:animated": "3f0ce73826878e146107f152cf956411e662a4be10e1aefec82dc1697b1c3557",
+        "blueprint:still": "3f0ce73826878e146107f152cf956411e662a4be10e1aefec82dc1697b1c3557",
+        "kintsugi:animated": "7c932f4b17487f65eb2a63fa51c2d3165b81eab2948a256800ae797bcdb543ab",
+        "kintsugi:still": "7c932f4b17487f65eb2a63fa51c2d3165b81eab2948a256800ae797bcdb543ab",
+        "carbon:animated": "c7cac5591697fe3a93de5865764dc76eb55a72adec9a24f9d36c76de0a808641",
+        "carbon:still": "c7cac5591697fe3a93de5865764dc76eb55a72adec9a24f9d36c76de0a808641",
+        "aurora:animated": "d4963284ef96efb966b6b62f3b8c172ad560b2cd9296c7d9adb23b1ef2be590e",
+        "aurora:still": "d4963284ef96efb966b6b62f3b8c172ad560b2cd9296c7d9adb23b1ef2be590e",
+        "checker:animated": "a0cc17303862b8157c59a4d0003b6ff86a4101e1c3505a6adde6c25f6f18c26b",
+        "checker:still": "a0cc17303862b8157c59a4d0003b6ff86a4101e1c3505a6adde6c25f6f18c26b",
+        "lowdetail:animated": "c5829ab55a63f6997f13a2a6370deadec090556a837729425f2b76d253814808",
+        "lowdetail:still": "c5829ab55a63f6997f13a2a6370deadec090556a837729425f2b76d253814808",
+        "ultralight:animated": "e2832d8e237fe6011a7bb304d2d5be6a2539ac61c75f2a3b1ba948ee102e78ca",
+        "ultralight:still": "e2832d8e237fe6011a7bb304d2d5be6a2539ac61c75f2a3b1ba948ee102e78ca"
       }
     },
     "shader.npk": {
@@ -62,7 +78,23 @@
         "champagne:animated": "50730e0b51ae88847130c69cb021c7a0a7873f6ddb837b4a9004654e95ef84f9",
         "champagne:still": "8885b4af3df450d448587023a002079b8985f69d9ef512d714f1b5d530964209",
         "ink:animated": "54c847d905b80402c063111a7efacabd880c81c7ecb5318a8bce5fd62e6dfd25",
-        "ink:still": "5b099ff0de368c6ec9322b5eaa0237113bff5ac17f54caf291ebd55196347c5a"
+        "ink:still": "5b099ff0de368c6ec9322b5eaa0237113bff5ac17f54caf291ebd55196347c5a",
+        "timber:animated": "3429d34bc77dccb1427f015e0fe7186d6819dfe75619f72f7ae5294bb04a3660",
+        "timber:still": "1e01747da12f58f065627503ca02292fd8eb7facff6402ae85d9f067bdd3cdb5",
+        "blueprint:animated": "3a6295d860a7a22405bf3d017d6bea9dbc927621ecd5014c5d3e65279d7aeda7",
+        "blueprint:still": "1877a580442e32a374ab9433971b54bc0b5c2c278d2a81047ab7a68eaa547b71",
+        "kintsugi:animated": "adef1082a683afb613f701b9dafacd57b7cbf369868e57f9272074807b534ecb",
+        "kintsugi:still": "d1e1ead951f4c0e88ea963557abe1cfbe2f71a3c6f36bb9dcbd8ced91a6008a4",
+        "carbon:animated": "e22fa9c499ac323732ee749f021074c358993f2b610c6fe6a319a2325f8d25a7",
+        "carbon:still": "e3e9e823f05b9e223ac1f532adab7af5be762c06b53a5fe020bbaa67b0a1e447",
+        "aurora:animated": "d92129356d7752dd0476056045c5ce89baa3ec4e5b3434d1079b6c72f01e9dd4",
+        "aurora:still": "6d3fdb23cf4d019b81ebd768fd80fc38369f65e6220e70765b32f2e973645683",
+        "checker:animated": "acfa5c42d5b3d8b3297d44b2a032e75522502e1aa40e1705843c23768eba7f7a",
+        "checker:still": "a672dd65d1b5b188e956e4e2928bd36b0604c26fc6d9c1d131504b686696f827",
+        "lowdetail:animated": "bfc1f19d4401e0739abcab4f470f958faad3eed556d6db3847a2c00666d5b85f",
+        "lowdetail:still": "bfc1f19d4401e0739abcab4f470f958faad3eed556d6db3847a2c00666d5b85f",
+        "ultralight:animated": "1d65eacb7475ddb1b0204a8e889ec1de4dbd4f8f6a41fe296383ed7f8647b39e",
+        "ultralight:still": "1d65eacb7475ddb1b0204a8e889ec1de4dbd4f8f6a41fe296383ed7f8647b39e"
       }
     }
   }
