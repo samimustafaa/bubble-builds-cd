@@ -1,8 +1,8 @@
 'use strict';
 const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto');
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
-const {patchArchive,mobileConfig}=require('./patcher.cjs');
-async function localBuilder({source,manifest,preset}){const output={'neox.xml':mobileConfig(source['neox.xml'])};for(const name of ['model_regular.npk','shader.npk'])output['res/'+name]=preset==='bubble'?patchArchive(source['res/'+name],name,manifest.archives[name]):source['res/'+name];return output;}
+const {patchArchive,mobileConfig,PRESETS}=require('./patcher.cjs');
+async function localBuilder({source,manifest,preset}){const output={'neox.xml':mobileConfig(source['neox.xml'])};for(const name of ['model_regular.npk','shader.npk'])output['res/'+name]=preset!=='mobile'?patchArchive(source['res/'+name],name,manifest.archives[name],preset):source['res/'+name];return output;}
 const TARGETS=['neox.xml','res/model_regular.npk','res/shader.npk'];
 async function atomic(file,data){
  await fs.mkdir(path.dirname(file),{recursive:true});const tmp=file+'.'+crypto.randomUUID()+'.tmp';
@@ -59,7 +59,7 @@ class BuildEngine{
   r.pending=false;r.preset='Restored backup';r.lastHashes={};await this.save(root,r);
  }
  async apply(input,preset,progress=()=>{}){
-  if(!['bubble','mobile'].includes(preset))throw Error('Choose a supported preset.');if(this.busy)throw Error('Wait for the current operation.');this.busy=true;
+  if(!['mobile',...Object.keys(PRESETS)].includes(preset))throw Error('Choose a supported preset.');if(this.busy)throw Error('Wait for the current operation.');this.busy=true;
   try{
    const root=await this.root(input);await this.closed(root);let r=await this.record(root);
    if(r?.pending)throw Error('An earlier change was interrupted. Restore the backup first.');
@@ -72,7 +72,7 @@ class BuildEngine{
    r.pending=true;await this.save(root,r);
    try{
     for(const [rel,b]of Object.entries(payload)){await this.closed(root);progress('Applying '+rel+'…');await atomic(path.join(root,rel),b);if(hash(await fs.readFile(path.join(root,rel)))!==hash(b))throw Error('File verification failed.');}
-    r.lastHashes=Object.fromEntries(Object.entries(payload).map(([k,b])=>[k,hash(b)]));r.preset=preset==='bubble'?'Bubble Wrap — Test 01':'Mobile / flat';r.pending=false;r.applied=new Date().toISOString();await this.save(root,r);
+    r.lastHashes=Object.fromEntries(Object.entries(payload).map(([k,b])=>[k,hash(b)]));r.preset=PRESETS[preset]?.name||'Mobile / flat';r.pending=false;r.applied=new Date().toISOString();await this.save(root,r);
    }catch(error){
     progress('Recovering original files…');try{await this.restoreFiles(root,r);}catch(e){throw Error(error.message+' Recovery needs attention: '+e.message+' Use Restore Backup with the game closed.');}throw Error(error.message+' Your original backup was restored.');
    }

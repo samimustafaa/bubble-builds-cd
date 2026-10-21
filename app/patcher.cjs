@@ -33,29 +33,46 @@ function parseBxml(b){
  for(const node of nodes){const n=varint();for(let j=0;j<n;j++){const name=attrs[varint()];need(1);const t=b[i++];node.attrs[name]=value(t);}need(1);node.value=value(b[i++]).value;}
  if(i!==b.length)throw Error('Binary config contains extra bytes');return nodes;
 }
-function patchMaterial(b){
+function patchMaterial(b,preset="bubble"){
  if(b.length<4||b.readUInt32LE(0)!==0x0d4159c1||!b.includes(Buffer.from('MaterialGroup\0'))||!(b.includes(Buffer.from('model_regular\\structure\\'))||b.includes(Buffer.from('model_regular\\structure_jj\\'))))return null;
  const out=Buffer.from(b);let hit=false;for(const node of parseBxml(b)){
-  if(node.tag==='RenderStates'&&node.attrs.AlphaVal){const a=node.attrs.AlphaVal;if(a.type!==2||a.value!==255)throw Error('Unexpected build alpha value');out.writeInt32LE(205,a.start);hit=true;}
+  if(node.tag==='RenderStates'&&node.attrs.AlphaVal){const a=node.attrs.AlphaVal;if(a.type!==2||a.value!==255)throw Error('Unexpected build alpha value');out.writeInt32LE(245,a.start);hit=true;}
   if(['diffuse_color','u_bright_color'].includes(node.tag)){const a=node.attrs.Value;if(a?.type===6&&a.value.length===4)[.65,.85,1,1].forEach((v,j)=>out.writeFloatLE(v,a.start+4+j*4));}
  }return hit?out:null;
 }
-const FILM=`// sg0hann Bubble Wrap Test 01\r
-float2 sgCell = frac(local_0 * 8.0f) - float2(0.5f, 0.5f);\r
-float sgRadius = length(sgCell);\r
-float sgRim = 1.0f - saturate(abs(sgRadius - 0.36f) * 22.0f);\r
-float sgSheen = pow(saturate(1.0f - length(sgCell - float2(-0.12f, -0.12f)) * 3.2f), 4.0f);\r
-final_color.rgb = lerp(final_color.rgb, float3(0.58f, 0.80f, 0.94f), 0.60f);\r
-final_color.rgb = saturate(final_color.rgb + (sgRim * 0.22f + sgSheen * 0.16f));\r
-final_color.a = final_color.a * (0.65f + sgRim * 0.20f);\r
+const PRESETS={
+ bubble:{name:'Bubble Wrap — TEST 01',label:'Soft Pearl',scale:18,strength:0.025},
+ classic:{name:'Bubble Wrap — TEST 02',label:'Classic',scale:14,strength:0.18},
+ micro:{name:'Bubble Wrap — TEST 03',label:'Micro',scale:25,strength:0.12},
+ crystal:{name:'Bubble Wrap — TEST 04',label:'Crystal',scale:10,strength:0.24}
+};
+function film(preset){
+ const style=PRESETS[preset];if(!style)throw Error('Choose a supported surface preset.');
+ // Analytic dome lighting adds apparent depth without changing the build mesh.
+ // No time or construction-stage input is assumed; the game's assembly stays intact.
+ return `// sg0hann Bubble Wrap Test 01 / ${style.label}
+float2 sgUV = local_0 * ${style.scale}.0f;
+float sgRow = floor(sgUV.y);
+sgUV.x += frac(sgRow * 0.5f);
+float2 sgCell = frac(sgUV) - float2(0.5f, 0.5f);
+float sgR2 = dot(sgCell, sgCell) / 0.1764f;
+float sgMask = 1.0f - smoothstep(0.85f, 1.0f, sgR2);
+float sgDome = sqrt(saturate(1.0f - sgR2));
+float3 sgNormal = normalize(float3(sgCell / 0.42f, max(sgDome, 0.04f)));
+float sgLight = saturate(dot(sgNormal, normalize(float3(-0.45f, -0.55f, 0.85f))));
+float sgGlint = pow(saturate(dot(sgNormal, normalize(float3(-0.3f, -0.4f, 1.0f)))), 22.0f);
+float sgShade = (sgLight - 0.55f) * sgMask;
+float3 sgPearl = lerp(final_color.rgb, float3(0.68f, 0.83f, 0.94f), 0.48f);
+final_color.rgb = saturate(sgPearl + sgShade * ${style.strength.toFixed(3)}f + sgGlint * sgMask * ${(style.strength*.75).toFixed(3)}f);
 return final_color;`;
-function patchShader(b){const s=b.toString('utf8');if(!(s.startsWith('//scene_cj\r')||s.startsWith('//scene_cj_pbr\r'))||!s.includes('float4 ps_main(PS_INPUT psIN)'))return null;if(!s.includes('float2 local_0')||s.split('return final_color;').length!==2)throw Error('Unexpected build shader');return Buffer.from(s.replace('return final_color;',FILM));}
-function patchArchive(original,name,info){
+}
+function patchShader(b,preset="bubble"){const s=b.toString('utf8');if(!(s.startsWith('//scene_cj\r')||s.startsWith('//scene_cj_pbr\r'))||!s.includes('float4 ps_main(PS_INPUT psIN)'))return null;if(!s.includes('float2 local_0')||s.split('return final_color;').length!==2)throw Error('Unexpected build shader');return Buffer.from(s.replace('return final_color;',film(preset)));}
+function patchArchive(original,name,info,preset="bubble"){
  if(sha(original)!==info.originalSha256)throw Error('Original archive version differs: '+name);const parsed=parseArchive(original),chunks=[original.subarray(0,parsed.index)];let length=parsed.index,changed=0;const semantic=crypto.createHash('sha256');
- const entries=parsed.entries.map(e=>[...e]);for(const e of entries){const packed=original.subarray(e[1],e[1]+e[2]),raw=decode(packed,e),next=name==='model_regular.npk'?patchMaterial(raw):patchShader(raw);if(!next)continue;
+ const entries=parsed.entries.map(e=>[...e]);for(const e of entries){const packed=original.subarray(e[1],e[1]+e[2]),raw=decode(packed,e),next=name==='model_regular.npk'?patchMaterial(raw,preset):patchShader(raw,preset);if(!next)continue;
   const encoded=mask(zlib.deflateSync(next,{level:6}));const padding=(4-length%4)%4;if(padding){chunks.push(Buffer.alloc(padding));length+=padding;}e[1]=length;e[2]=encoded.length;e[3]=next.length;e[4]=murmur(encoded);e[5]=murmur(next);e[6]=65537;if(!decode(encoded,e).equals(next))throw Error('Generated resource verification failed');semantic.update(e[0].toString(16).padStart(8,'0'));semantic.update(Buffer.from(sha(next),'hex'));chunks.push(encoded);length+=encoded.length;changed++;
  }
- if(changed!==info.resources)throw Error('Unexpected changed resource count for '+name);const pad=(4-length%4)%4;if(pad){chunks.push(Buffer.alloc(pad));length+=pad;}const index=length,table=Buffer.alloc(entries.length*28);entries.forEach((e,i)=>e.forEach((v,j)=>table.writeUInt32LE(v,i*28+j*4)));chunks.push(table);const result=Buffer.concat(chunks);result.writeUInt32LE(index,20);parseArchive(result);if(info.semanticSha256&&semantic.digest('hex')!==info.semanticSha256)throw Error('Generated resource content differs');return result;
+ if(changed!==info.resources)throw Error('Unexpected changed resource count for '+name);const pad=(4-length%4)%4;if(pad){chunks.push(Buffer.alloc(pad));length+=pad;}const index=length,table=Buffer.alloc(entries.length*28);entries.forEach((e,i)=>e.forEach((v,j)=>table.writeUInt32LE(v,i*28+j*4)));chunks.push(table);const result=Buffer.concat(chunks);result.writeUInt32LE(index,20);parseArchive(result);if((info.semanticByPreset?.[preset]||info.semanticSha256)&&semantic.digest('hex')!==(info.semanticByPreset?.[preset]||info.semanticSha256))throw Error('Generated resource content differs');return result;
 }
 const MOBILE={UseD3D9:'True',UseTextureAtlas:'False',OneLightOptimize:'True',HardwareInstancing:'False',GpuSkinningEnable:'False',ShaderInstancing:'False',GpuParticle:'False',PixelDecal:'False',EnableShadowMap:'False',SSshadow:'False',EnableCSM:'True',EnableDepthShadow:'True',VSync:'False',LoadSeparateAlphaFile:'False',UseClassifiedVertexPool:'True'};
 function mobileConfig(original){
@@ -67,4 +84,4 @@ function mobileConfig(original){
  if(required.size)throw Error('This neox.xml lacks the supported rendering settings');if(!edits.length)return Buffer.from(original);
  let out=Buffer.from(original);for(const e of edits.sort((a,b)=>b.start-a.start))out=Buffer.concat([out.subarray(0,e.start),e.b,out.subarray(e.end)]);out.writeBigUInt64LE(original.readBigUInt64LE(4)+BigInt(out.length-original.length),4);parseBxml(out);return out;
 }
-module.exports={murmur,lz4,mask,parseArchive,decode,parseBxml,patchMaterial,patchShader,patchArchive,mobileConfig,sha};
+module.exports={PRESETS,film,murmur,lz4,mask,parseArchive,decode,parseBxml,patchMaterial,patchShader,patchArchive,mobileConfig,sha};

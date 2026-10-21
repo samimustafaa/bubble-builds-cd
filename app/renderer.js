@@ -3,13 +3,13 @@ const $=id=>document.getElementById(id),api=window.builds;let selected='bubble',
 function message(text,kind=''){const node=$('status');node.textContent=text;node.className='status '+kind;}
 function buttons(){const ready=state?.windows&&state?.status?.game?.state==='closed'&&!state?.status?.error;
  $('apply').disabled=busy||updating||!ready||!!state?.status?.pending;$('restore').disabled=busy||updating||!ready||!state?.status?.backup;
- for(const id of ['browse','bubble','mobile','check','update'])$(id).disabled=busy||updating;
+ for(const id of ['browse','bubble','classic','micro','crystal','mobile','check','update'])$(id).disabled=busy||updating;
 }
 function game(value){if(!state?.status)return;state.status.game=value;$('dot').className='dot '+value.state;$('game').textContent=value.state==='closed'?'Game closed':value.state==='running'?'Close the game to apply':'Game check unavailable';buttons();}
 function render(value){state=value;$('version').textContent='v'+value.version;$('folder').textContent=value.folder||'Choose your Creative Destruction folder';$('active').textContent=(value.status?.preset||'NO PRESET APPLIED').toUpperCase();if(value.status?.error)message(value.status.error,'error');else if(value.status?.pending)message('An earlier change was interrupted. Click Restore backup to recover.','error');if(value.status?.game)game(value.status.game);buttons();}
 async function task(fn,success){if(busy||updating)return;busy=true;buttons();message('Working…');try{const result=await fn();if(result?.version)render(result);if(success)message(success,'success');else if(!state?.status?.error)message('Original files are backed up before the first Apply.');}catch(e){message(e.message,'error');try{render(await api.state());}catch{}}finally{busy=false;buttons();}}
-for(const id of ['bubble','mobile'])$(id).onclick=()=>{selected=id;for(const p of ['bubble','mobile']){$(p).classList.toggle('selected',p===id);$(p).setAttribute('aria-checked',String(p===id));}};
-$('browse').onclick=()=>task(()=>api.choose());$('apply').onclick=()=>task(()=>api.apply(selected),selected==='bubble'?'Bubble Wrap Test 01 applied — ready for your in-game test.':'Mobile / flat preset applied.');$('restore').onclick=()=>task(()=>api.restore(),'Backup restored — your saved files are back.');$('backups').onclick=()=>api.backups().catch(e=>message(e.message,'error'));
+for(const id of ['bubble','classic','micro','crystal','mobile'])$(id).onclick=()=>{selected=id;for(const p of ['bubble','classic','micro','crystal','mobile']){$(p).classList.toggle('selected',p===id);$(p).setAttribute('aria-checked',String(p===id));}};
+$('browse').onclick=()=>task(()=>api.choose());$('apply').onclick=()=>task(()=>api.apply(selected),selected==='mobile'?'Mobile / flat preset applied.':'Bubble Wrap test preset applied — ready for your in-game test.');$('restore').onclick=()=>task(()=>api.restore(),'Backup restored — your saved files are back.');$('backups').onclick=()=>api.backups().catch(e=>message(e.message,'error'));
 $('openSettings').onclick=()=>$('settings').showModal();$('closeSettings').onclick=()=>$('settings').close();
 $('check').onclick=()=>api.check().catch(e=>$('updateStatus').textContent=e.message);
 $('update').onclick=async()=>{updating=true;buttons();try{await api.update();}catch(e){updating=false;$('updateStatus').textContent=e.message;buttons();}};
