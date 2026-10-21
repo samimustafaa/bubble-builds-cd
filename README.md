@@ -1,11 +1,13 @@
-# Bubble Builds 
+# Bubble Builds
 
-Experimental build appearance presets for Creative Destruction, with Apply and Restore Backup.
+Custom build appearances for Creative Destruction, with Apply and Restore Backup.
 
 [Download the Windows app](https://github.com/samimustafaa/bubble-builds-cd/releases/latest)
 
-Close the game and launcher, choose the game folder, select **Bubble Wrap — TEST 01–04** (Soft Pearl, Classic, Micro, Crystal) or **Mobile / flat**, and click **Apply preset**. **Restore backup** returns the exact files saved before the first Apply, including graphics changes you already had.
+Close the game, choose its folder, then pick **Bubble Wrap — TEST 01**, **Custom image**, or **Mobile / flat**.
 
-The app generates patches locally from the installed game files. The repository and releases contain app code and rendering instructions, with no game archives. Supported archives are the supplied June 2020 `model_regular.npk` and `shader.npk`; other versions are rejected.
+**Custom image:** upload a PNG, JPG or WebP, choose Stretch or Fit, then click Apply. Only one image is saved; uploading another replaces it. Apply replaces the previous game texture using the original backup. Image resolution is limited to 512 pixels for the game. Clamped UVs stop tiling, but existing model UVs can split or distort the picture across faces. Geometry and animations stay unchanged.
 
-Preview images are concepts. Surface shaders are experimental; existing build shapes and assembly animations remain.
+**Restore backup** returns your exact pre-first-Apply files. App updates and your saved image stay outside the installation. Use **Updates → Check now → Update & restart**; the app downloads, installs and reopens itself without a manual reinstall.
+
+Patches are generated locally from the supported June 2020 game archives. No game archives are distributed. Custom textures need an in-game Windows test.

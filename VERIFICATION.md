@@ -1,9 +1,9 @@
-# Verification — 0.1.2
+# Verification — 0.1.3
 
-- Four separate analytic surface shaders: Soft Pearl, Classic, Micro and Crystal. Mobile / flat remains available.
-- Each variant generated privately from the supported originals: 318 material resources and two Direct3D pixel shaders. Changed resource checksums, round trips and per-preset semantic hashes verified.
-- New tests cover distinct surface variants and switching all four presets from original backups before restoring every original byte. Existing recovery and updater tests retained.
-- Supplied clip reviewed: the game's hexagonal construction assembly remains unchanged. This release changes surface shading and reduces the previous excessive transparency; it does not replace animations, add actual dome geometry or promise Fortnite motion.
-- Thumbnails are supplied/generated visual concepts, clearly labelled in the app. Actual material appearance, game acceptance and shader compilation need a Windows game test.
+- 35 automated tests cover DDS conversion and mipmaps, Stretch/Fit, image replacement and persistence, custom shader clamping, backup/restore/recovery and updater control flow.
+- Privately applied TEST 01, a red custom image, a blue replacement image, Mobile and Restore to copies of the supplied game files. All 17 build diffuse textures decoded to the latest image. Invalid image generation made no writes. Mobile returned the original archives; Restore returned every original byte.
+- Custom mapping samples diffuse UVs once using clamping and preserves the shader's alpha/construction calculations. Existing UV unwrapping can split/distort the picture across faces; no claim of seamless whole-object mapping is made.
+- One atomic custom-image file is stored outside the app installation. A failed replacement leaves the previous image intact. New image uploads change the saved selection; Apply updates the game with it.
+- TEST 02–04 and their concept thumbnails removed. TEST 01 remains; its thumbnail is a concept rather than verified gameplay.
 
-No game archives are distributed. Patches are generated locally. No runtime injection or anticheat bypass.
+Windows shader compilation, DDS acceptance and actual image placement require an in-game test. The interface's new upload flow has not been exercised in a live Windows GUI in this environment.
