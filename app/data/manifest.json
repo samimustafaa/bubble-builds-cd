@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.13",
+  "version": "0.1.14",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -30,17 +30,17 @@
         "timberwhite:still": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
         "timberbrace:animated": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
         "timberbrace:still": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
-        "portrait-dark:animated": "27aa3c98f8efd52037ff9bc6e308d5b34e10290d832deb145adfeb6f85de0e26",
-        "portrait-dark:still": "27aa3c98f8efd52037ff9bc6e308d5b34e10290d832deb145adfeb6f85de0e26",
-        "portrait-warm:animated": "268e7a615691a22815e7fd44b0acf4098e7f16ac8afb59179f7f6516d28c55fa",
-        "portrait-warm:still": "268e7a615691a22815e7fd44b0acf4098e7f16ac8afb59179f7f6516d28c55fa",
-        "portrait-smile:animated": "1426f500a465a0cd1312b0a0fba8d45d42aa3eea180f77d00779c1ee111b276f",
-        "portrait-smile:still": "1426f500a465a0cd1312b0a0fba8d45d42aa3eea180f77d00779c1ee111b276f"
+        "portrait-dark:animated": "50fe198d972cbcbbc20c144f546d25e24475b4ab9b7986c2246e52b36abc2a24",
+        "portrait-dark:still": "50fe198d972cbcbbc20c144f546d25e24475b4ab9b7986c2246e52b36abc2a24",
+        "portrait-warm:animated": "c413a21870665d2ee90b2b77513488e534307f9931cad3e258c2009102f58105",
+        "portrait-warm:still": "c413a21870665d2ee90b2b77513488e534307f9931cad3e258c2009102f58105",
+        "portrait-smile:animated": "010e38c3b290c5153f468371d71d07321c8b1c98241d0d65c234c11872df329d",
+        "portrait-smile:still": "010e38c3b290c5153f468371d71d07321c8b1c98241d0d65c234c11872df329d"
       },
       "resourcesByPreset": {
-        "portrait-dark": 326,
-        "portrait-warm": 326,
-        "portrait-smile": 326
+        "portrait-dark": 328,
+        "portrait-warm": 328,
+        "portrait-smile": 328
       }
     },
     "shader.npk": {

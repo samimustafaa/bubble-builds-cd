@@ -1,9 +1,9 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),zlib=require('node:zlib'),crypto=require('node:crypto'),assets=require('./data/portrait-assets.json');
 const PORTRAITS={
- 'portrait-dark':{name:'Dark Portrait — TEST',number:'10',motion:'Solid CD build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-dark.png'},
- 'portrait-warm':{name:'Warm Portrait — TEST',number:'11',motion:'Solid CD build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-warm.png'},
- 'portrait-smile':{name:'Smiling Portrait — TEST',number:'12',motion:'Solid CD build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-smile.png'}
+ 'portrait-dark':{name:'Dark Portrait — TEST',number:'10',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-dark.png'},
+ 'portrait-warm':{name:'Warm Portrait — TEST',number:'11',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-warm.png'},
+ 'portrait-smile':{name:'Smiling Portrait — TEST',number:'12',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-smile.png'}
 };
 const cache=new Map();
 function portraitTexture(id){
