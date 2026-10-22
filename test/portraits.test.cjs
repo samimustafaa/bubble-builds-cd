@@ -1,5 +1,5 @@
 'use strict';
-const {test}=require('node:test'),assert=require('node:assert/strict'),p=require('../app/patcher.cjs'),{PORTRAITS,portraitTexture,portraitFilm}=require('../app/portraits.cjs');
+const {test}=require('node:test'),assert=require('node:assert/strict'),p=require('../app/patcher.cjs'),{PORTRAITS,portraitTexture}=require('../app/portraits.cjs');
 function buildMaterial(ref='model_regular\\structure\\wall.dds'){
  const tags=['NeoX','MaterialGroup','File','ParamTable','Tex0'],attrs=['Path','Value'],table=Buffer.concat([Buffer.from([5]),...tags.map(x=>Buffer.from(x+'\0')),Buffer.from([2]),...attrs.map(x=>Buffer.from(x+'\0'))]);
  const descriptors=Buffer.from([5,0,1,1,2,2,0,3,1,4,0]),offset=Buffer.alloc(8);offset.writeBigUInt64LE(BigInt(table.length+8+descriptors.length));
@@ -16,12 +16,12 @@ test('portrait DDS assets retain BC3 alpha, signature and a complete mip chain',
  }assert.equal(unique.size,3);
 });
 test('portrait replacement changes only referenced diffuse DDS entries, preserving materials and other textures',()=>{
- const id=p.murmur(Buffer.from('structure\\wall.dds')),material=buildMaterial(),original=archive([[1,material],[id,Buffer.from('DDS owned diffuse fixture')],[3,Buffer.from('DDS unrelated normal fixture')],[4,Buffer.from('unrelated geometry fixture')]]),meta={originalSha256:p.sha(original),resources:318,resourcesByPreset:{'portrait-dark':1}};
- assert.deepEqual([...p.portraitTextureIds(original)],[id]);const next=p.patchArchive(original,'model_regular.npk',meta,'portrait-dark'),entries=rawEntries(next),before=rawEntries(original);assert.deepEqual(entries.get(id),portraitTexture('portrait-dark'));for(const key of [1,3,4])assert.deepEqual(entries.get(key),before.get(key));assert.equal(p.patchMaterial(material,'portrait-dark'),null);
+ const id=p.murmur(Buffer.from('structure\\wall.dds')),material=buildMaterial(),original=archive([[1,material],[id,portraitTexture('portrait-warm')],[3,Buffer.from('DDS unrelated normal fixture')],[4,Buffer.from('unrelated geometry fixture')]]),meta={originalSha256:p.sha(original),resources:318,resourcesByPreset:{'portrait-dark':1}};
+ assert.deepEqual([...p.portraitTextureIds(original)],[id]);const next=p.patchArchive(original,'model_regular.npk',meta,'portrait-dark'),entries=rawEntries(next),before=rawEntries(original);assert.deepEqual(entries.get(id),require('../app/portrait-print.cjs').printPortrait(portraitTexture('portrait-warm'),portraitTexture('portrait-dark')));for(const key of [1,3,4])assert.deepEqual(entries.get(key),before.get(key));assert.equal(p.patchMaterial(material,'portrait-dark'),null);
 });
 test('portrait paths fail closed when diffuse resources are missing or point outside builds',()=>{
- const id=p.murmur(Buffer.from('structure\\wall.dds'));assert.throws(()=>p.portraitTextureIds(archive([[1,buildMaterial()]])),/missing/);assert.throws(()=>p.portraitTextureIds(archive([[1,buildMaterial('model_regular\\character\\face.dds')],[id,Buffer.from('DDS owned diffuse fixture')]])),/Unexpected/);
+ const id=p.murmur(Buffer.from('structure\\wall.dds'));assert.throws(()=>p.portraitTextureIds(archive([[1,buildMaterial()]])),/missing/);assert.throws(()=>p.portraitTextureIds(archive([[1,buildMaterial('model_regular\\character\\face.dds')],[id,portraitTexture('portrait-warm')]])),/Unexpected/);
 });
-test('portrait cutouts identify their texture without custom uniforms and avoid shader UV wrapping',()=>{
- for(const pbr of [true,false]){const shader=portraitFilm('portrait-dark',pbr);assert(shader.includes('tex2Dlod(sam_diffuse'));assert(!shader.includes('sgBuildVariant'));assert(!shader.includes('diffuse_instensty'));assert(!shader.includes('frac('));assert(shader.includes('clip(sgPortrait.a - 0.05f)'));assert(shader.includes('min(final_color.a,sgPortrait.a)'));assert(shader.indexOf('tex2D(sam_diffuse')<shader.indexOf('if (sgPortraitTag'));}
+test('solid portrait presets retain the original build shaders',()=>{
+ for(const id of Object.keys(PORTRAITS))assert.equal(p.patchShader(Buffer.from('//scene_cj\r\nfloat4 ps_main(PS_INPUT psIN) { float2 local_0; return final_color; }'),id),null);
 });

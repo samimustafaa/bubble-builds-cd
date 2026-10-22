@@ -1,6 +1,6 @@
 # Bubble Builds
 
-Build material tests for Creative Destruction: Original Bubble Wrap, five bubble variants four wood variants with permanent visual gaps, and three transparent portrait tests.
+Build material tests for Creative Destruction: Original Bubble Wrap, five bubble variants four wood variants with permanent visual gaps, and three solid portrait prints.
 
 [Download the Windows installer](https://github.com/samimustafaa/bubble-builds-cd/releases/latest)
 
@@ -12,4 +12,4 @@ Previews are deterministic UV material samples from the shader equations, not ga
 
 Patches are generated locally from supported original game files. No game archives are distributed.
 
-Portrait presets directly replace the 28 referenced build diffuse textures and use alpha to cut out their backgrounds. Version 0.1.12 remaps the primary UV stream of 298 referenced build meshes to one image per whole piece: width/height on walls and width/depth on floors and ramps. Duplicate plank vertices share image coordinates. Positions, indices, normals, tangents, secondary lightmap UVs and collision data remain byte identical. In-game placement still needs validation. [Portrait asset notes](docs/portrait-assets.md).
+Portrait presets print the selected person over the original CD diffuse material, keeping the surrounding build solid. Version 0.1.13 composites BC3 textures locally from the verified game backup and restores the original build shaders, including lighting and construction effects. Whole-piece UV mapping from 0.1.12 is retained on 298 build meshes. Only primary UV bytes change in geometry; collision and animation data remain unchanged. In-game appearance still needs validation. [Portrait asset notes](docs/portrait-assets.md).
