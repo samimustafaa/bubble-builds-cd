@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$Folder, [int]$ExpectedCount=60)
+param([Parameter(Mandatory=$true)][string]$Folder, [int]$ExpectedCount=78)
 $ErrorActionPreference='Stop'
 Add-Type @'
 using System;

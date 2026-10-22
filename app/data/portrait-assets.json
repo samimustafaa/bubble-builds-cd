@@ -1,0 +1,26 @@
+{
+  "portrait-dark": {
+    "sha256": "a346bf47b43eabe9d1069244da0d26f0002e9b7ed7735c6f82b80b54a53c8b52",
+    "bytes": 349680,
+    "width": 512,
+    "height": 512,
+    "mips": 10,
+    "compression": "DXT5"
+  },
+  "portrait-warm": {
+    "sha256": "c68184e5b25778081fa5122a6dcdfcd6a4f0d4c7d605a6f0c86a06a288b2c6cf",
+    "bytes": 349680,
+    "width": 512,
+    "height": 512,
+    "mips": 10,
+    "compression": "DXT5"
+  },
+  "portrait-smile": {
+    "sha256": "32fa1001cfcbee121db9ed575ab1d4d4bdb7d59bc20b9b930b0eef768f2a4196",
+    "bytes": 349680,
+    "width": 512,
+    "height": 512,
+    "mips": 10,
+    "compression": "DXT5"
+  }
+}

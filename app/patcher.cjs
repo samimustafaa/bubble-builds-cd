@@ -2,6 +2,7 @@
 // Authored patch generator. Reads game files locally; no game archives are bundled.
 const crypto=require('node:crypto'),zlib=require('node:zlib');
 const {STYLES,surfaceFilm}=require('./styles.cjs');
+const {PORTRAITS,portraitTexture,portraitFilm}=require('./portraits.cjs');
 const {TIMBERS,timberFilm}=require('./timber.cjs'),{tagMaterial}=require('./material-tag.cjs');
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const rol=(n,s)=>(n<<s)|(n>>>(32-s));
@@ -36,15 +37,28 @@ function parseBxml(b){
  for(const node of nodes){const n=varint();for(let j=0;j<n;j++){const name=attrs[varint()];need(1);const t=b[i++];node.attrs[name]=value(t);}need(1);node.valueInfo=value(b[i++]);node.value=node.valueInfo.value;}
  if(i!==b.length)throw Error('Binary config contains extra bytes');Object.defineProperty(nodes,'tableMetadata',{value:tableMetadata});Object.defineProperty(nodes,'attributeDataOffset',{value:attributeDataOffset});return nodes;
 }
+function isBuildMaterial(b){return b.length>=4&&b.readUInt32LE(0)===0x0d4159c1&&b.includes(Buffer.from('MaterialGroup\0'))&&(b.includes(Buffer.from('model_regular\\structure\\'))||b.includes(Buffer.from('model_regular\\structure_jj\\')));}
+function portraitTextureIds(original,parsed=parseArchive(original),decoded=new Map()){
+ const entries=new Map(parsed.entries.map(e=>[e[0],e])),ids=new Set();
+ const raw=e=>{if(!decoded.has(e[0]))decoded.set(e[0],decode(original.subarray(e[1],e[1]+e[2]),e));return decoded.get(e[0]);};
+ for(const e of parsed.entries){const b=raw(e);if(!isBuildMaterial(b))continue;
+  for(const n of parseBxml(b))if(['Tex0','difuse','diffuse_x'].includes(n.tag)){
+   const ref=n.attrs.Value?.value;if(typeof ref!=='string'||!/^model_regular\\structure(?:_jj)?\\.+\.dds$/i.test(ref))throw Error('Unexpected build diffuse texture path');
+   const relative=ref.replace(/^model_regular\\/i,'').toLowerCase(),id=murmur(Buffer.from(relative)),entry=entries.get(id);
+   if(!entry||raw(entry).toString('ascii',0,4)!=='DDS ')throw Error('Build diffuse texture is missing: '+ref);ids.add(id);
+  }
+ }
+ if(!ids.size)throw Error('No supported build diffuse textures found');return ids;
+}
 function patchMaterial(b,preset="bubble"){
- if(b.length<4||b.readUInt32LE(0)!==0x0d4159c1||!b.includes(Buffer.from('MaterialGroup\0'))||!(b.includes(Buffer.from('model_regular\\structure\\'))||b.includes(Buffer.from('model_regular\\structure_jj\\'))))return null;
+ if(!isBuildMaterial(b)||PORTRAITS[preset])return null;
  if(TIMBERS[preset])return tagMaterial(b,parseBxml(b));
  const out=Buffer.from(b);let hit=false;for(const node of parseBxml(b)){
   if(node.tag==='RenderStates'&&node.attrs.AlphaVal){const a=node.attrs.AlphaVal;if(a.type!==2||a.value!==255)throw Error('Unexpected build alpha value');out.writeInt32LE(preset==='bubble'?245:255,a.start);hit=true;}
   if(preset==='bubble'&&['diffuse_color','u_bright_color'].includes(node.tag)){const a=node.attrs.Value;if(a?.type===6&&a.value.length===4)(preset==='bubble'?[.65,.85,1,1]:[...STYLES[preset].color,1]).forEach((v,j)=>out.writeFloatLE(v,a.start+4+j*4));}
  }return hit?out:null;
 }
-const PRESETS={bubble:{name:'Bubble Wrap — TEST 01',label:'Soft Pearl',scale:18,strength:0.025,number:'00',motion:'Original Soft Pearl · unchanged',quality:'original',preview:'assets/bubble-sample.png'},...STYLES,...TIMBERS};
+const PRESETS={bubble:{name:'Bubble Wrap — TEST 01',label:'Soft Pearl',scale:18,strength:0.025,number:'00',motion:'Original Soft Pearl · unchanged',quality:'original',preview:'assets/bubble-sample.png'},...STYLES,...TIMBERS,...PORTRAITS};
 function film(preset){
  const style=preset==='bubble'?PRESETS.bubble:null;if(!style)throw Error('Choose a supported surface preset.');
  // Analytic dome lighting adds apparent depth without changing the build mesh.
@@ -65,13 +79,13 @@ float3 sgPearl = lerp(final_color.rgb, float3(0.68f, 0.83f, 0.94f), 0.48f);
 final_color.rgb = saturate(sgPearl + sgShade * ${style.strength.toFixed(3)}f + sgGlint * sgMask * ${(style.strength*.75).toFixed(3)}f);
 return final_color;`;
 }
-function patchShader(b,preset="bubble",animated=true){const s=b.toString('utf8');if(!(s.startsWith('//scene_cj\r')||s.startsWith('//scene_cj_pbr\r'))||!s.includes('float4 ps_main(PS_INPUT psIN)'))return null;if(!s.includes('float2 local_0')||s.split('return final_color;').length!==2)throw Error('Unexpected build shader');const timber=!!TIMBERS[preset];if(timber&&!/\bfloat\s+diffuse_instensty\s*;/.test(s))throw Error('Supported timber shader binding is missing');const output=s.replace('return final_color;',timber?timberFilm(preset,s.startsWith('//scene_cj_pbr')):preset==='bubble'?film(preset):surfaceFilm(preset,s.startsWith('//scene_cj_pbr'),animated));return Buffer.from(output);}
+function patchShader(b,preset="bubble",animated=true){const s=b.toString('utf8');if(!(s.startsWith('//scene_cj\r')||s.startsWith('//scene_cj_pbr\r'))||!s.includes('float4 ps_main(PS_INPUT psIN)'))return null;if(!s.includes('float2 local_0')||s.split('return final_color;').length!==2)throw Error('Unexpected build shader');const timber=!!TIMBERS[preset],portrait=!!PORTRAITS[preset];if(portrait&&!/\bsampler2D\s+sam_diffuse\s*(?::\s*register\s*\(\s*s\d+\s*\))?\s*;/.test(s))throw Error('Supported portrait sampler is missing');if(timber&&!/\bfloat\s+diffuse_instensty\s*;/.test(s))throw Error('Supported timber shader binding is missing');const output=s.replace('return final_color;',portrait?portraitFilm(preset,s.startsWith('//scene_cj_pbr')):timber?timberFilm(preset,s.startsWith('//scene_cj_pbr')):preset==='bubble'?film(preset):surfaceFilm(preset,s.startsWith('//scene_cj_pbr'),animated));return Buffer.from(output);}
 function patchArchive(original,name,info,preset="bubble",animated=true){
- if(sha(original)!==info.originalSha256)throw Error('Original archive version differs: '+name);const parsed=parseArchive(original),chunks=[original.subarray(0,parsed.index)];let length=parsed.index,changed=0;const semantic=crypto.createHash('sha256');
- const entries=parsed.entries.map(e=>[...e]);for(const e of entries){const packed=original.subarray(e[1],e[1]+e[2]),raw=decode(packed,e),next=name==='model_regular.npk'?patchMaterial(raw,preset):patchShader(raw,preset,animated);if(!next)continue;
+ if(sha(original)!==info.originalSha256)throw Error('Original archive version differs: '+name);const parsed=parseArchive(original),chunks=[original.subarray(0,parsed.index)];let length=parsed.index,changed=0;const semantic=crypto.createHash('sha256'),portraitModel=!!PORTRAITS[preset]&&name==='model_regular.npk',decoded=new Map(),portraitIds=portraitModel?portraitTextureIds(original,parsed,decoded):null;
+ const entries=parsed.entries.map(e=>[...e]);for(const e of entries){const packed=original.subarray(e[1],e[1]+e[2]),raw=decoded.get(e[0])||decode(packed,e),next=portraitModel?(portraitIds.has(e[0])?portraitTexture(preset):null):name==='model_regular.npk'?patchMaterial(raw,preset):patchShader(raw,preset,animated);if(!next)continue;
   const encoded=mask(zlib.deflateSync(next,{level:6}));const padding=(4-length%4)%4;if(padding){chunks.push(Buffer.alloc(padding));length+=padding;}e[1]=length;e[2]=encoded.length;e[3]=next.length;e[4]=murmur(encoded);e[5]=murmur(next);e[6]=65537;if(!decode(encoded,e).equals(next))throw Error('Generated resource verification failed');semantic.update(e[0].toString(16).padStart(8,'0'));semantic.update(Buffer.from(sha(next),'hex'));chunks.push(encoded);length+=encoded.length;changed++;
  }
- if(changed!==info.resources)throw Error('Unexpected changed resource count for '+name);const pad=(4-length%4)%4;if(pad){chunks.push(Buffer.alloc(pad));length+=pad;}const index=length,table=Buffer.alloc(entries.length*28);entries.forEach((e,i)=>e.forEach((v,j)=>table.writeUInt32LE(v,i*28+j*4)));chunks.push(table);const result=Buffer.concat(chunks);result.writeUInt32LE(index,20);parseArchive(result);const expected=info.semanticByPreset?.[preset+(animated?':animated':':still')]||info.semanticByPreset?.[preset]||info.semanticSha256;if(expected&&semantic.digest('hex')!==expected)throw Error('Generated resource content differs');return result;
+ if(changed!==(info.resourcesByPreset?.[preset]??info.resources))throw Error('Unexpected changed resource count for '+name);const pad=(4-length%4)%4;if(pad){chunks.push(Buffer.alloc(pad));length+=pad;}const index=length,table=Buffer.alloc(entries.length*28);entries.forEach((e,i)=>e.forEach((v,j)=>table.writeUInt32LE(v,i*28+j*4)));chunks.push(table);const result=Buffer.concat(chunks);result.writeUInt32LE(index,20);parseArchive(result);const expected=info.semanticByPreset?.[preset+(animated?':animated':':still')]||info.semanticByPreset?.[preset]||info.semanticSha256;if(expected&&semantic.digest('hex')!==expected)throw Error('Generated resource content differs');return result;
 }
 const MOBILE={UseD3D9:'True',UseTextureAtlas:'False',OneLightOptimize:'True',HardwareInstancing:'False',GpuSkinningEnable:'False',ShaderInstancing:'False',GpuParticle:'False',PixelDecal:'False',EnableShadowMap:'False',SSshadow:'False',EnableCSM:'True',EnableDepthShadow:'True',VSync:'False',LoadSeparateAlphaFile:'False',UseClassifiedVertexPool:'True'};
 function mobileConfig(original){
@@ -83,4 +97,4 @@ function mobileConfig(original){
  if(required.size)throw Error('This neox.xml lacks the supported rendering settings');if(!edits.length)return Buffer.from(original);
  let out=Buffer.from(original);for(const e of edits.sort((a,b)=>b.start-a.start))out=Buffer.concat([out.subarray(0,e.start),e.b,out.subarray(e.end)]);out.writeBigUInt64LE(original.readBigUInt64LE(4)+BigInt(out.length-original.length),4);parseBxml(out);return out;
 }
-module.exports={PRESETS,film,murmur,lz4,mask,parseArchive,decode,parseBxml,patchMaterial,patchShader,patchArchive,mobileConfig,sha};
+module.exports={PRESETS,film,isBuildMaterial,portraitTextureIds,murmur,lz4,mask,parseArchive,decode,parseBxml,patchMaterial,patchShader,patchArchive,mobileConfig,sha};

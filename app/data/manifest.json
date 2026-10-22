@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.10",
+  "version": "0.1.11",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -29,7 +29,18 @@
         "timberwhite:animated": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
         "timberwhite:still": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
         "timberbrace:animated": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
-        "timberbrace:still": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4"
+        "timberbrace:still": "c33fe27cd4bcab4b2abce49e798c9c393b8aa312b5c1654582d8742c61c305b4",
+        "portrait-dark:animated": "3ba31f5d9433c257ec7564793b7be90ae6a7661167f421db4c6d90e5d3cf35f2",
+        "portrait-dark:still": "3ba31f5d9433c257ec7564793b7be90ae6a7661167f421db4c6d90e5d3cf35f2",
+        "portrait-warm:animated": "1376a8c21e2dd44356144bc358711fcb0dea3548edd865244e00c14c42400a5a",
+        "portrait-warm:still": "1376a8c21e2dd44356144bc358711fcb0dea3548edd865244e00c14c42400a5a",
+        "portrait-smile:animated": "cb112f8c84674c38413e36ab652260ed49d84dd30072e15c661ee39ed33b2778",
+        "portrait-smile:still": "cb112f8c84674c38413e36ab652260ed49d84dd30072e15c661ee39ed33b2778"
+      },
+      "resourcesByPreset": {
+        "portrait-dark": 28,
+        "portrait-warm": 28,
+        "portrait-smile": 28
       }
     },
     "shader.npk": {
@@ -58,7 +69,18 @@
         "timberwhite:animated": "6b77b7f0b1a18d1dbe55d53eeef41df70ebf67b8df1362c40c1e299eab73a0dd",
         "timberwhite:still": "6b77b7f0b1a18d1dbe55d53eeef41df70ebf67b8df1362c40c1e299eab73a0dd",
         "timberbrace:animated": "a99f539dc2551c9691748320c43c316c6f8b26932cd1e558f5473809b757e42e",
-        "timberbrace:still": "a99f539dc2551c9691748320c43c316c6f8b26932cd1e558f5473809b757e42e"
+        "timberbrace:still": "a99f539dc2551c9691748320c43c316c6f8b26932cd1e558f5473809b757e42e",
+        "portrait-dark:animated": "75e2d5824925f2189c6c9aec36f01ae0b4ed1498b3cf22804098b1708b3a2375",
+        "portrait-dark:still": "75e2d5824925f2189c6c9aec36f01ae0b4ed1498b3cf22804098b1708b3a2375",
+        "portrait-warm:animated": "3255343f87bed6d960ae1fff4f94138746210a7a7bcb8aebe80722d8a54942d1",
+        "portrait-warm:still": "3255343f87bed6d960ae1fff4f94138746210a7a7bcb8aebe80722d8a54942d1",
+        "portrait-smile:animated": "fbf59bd9be096fa16a875500fb15453a8f1a78687cb448b88962b04442bf78b7",
+        "portrait-smile:still": "fbf59bd9be096fa16a875500fb15453a8f1a78687cb448b88962b04442bf78b7"
+      },
+      "resourcesByPreset": {
+        "portrait-dark": 2,
+        "portrait-warm": 2,
+        "portrait-smile": 2
       }
     }
   }
