@@ -1,3 +1,4 @@
+const {remapPortraitMesh}=require('./portrait-mesh.cjs');
 'use strict';
 // Authored patch generator. Reads game files locally; no game archives are bundled.
 const crypto=require('node:crypto'),zlib=require('node:zlib');
@@ -80,9 +81,15 @@ final_color.rgb = saturate(sgPearl + sgShade * ${style.strength.toFixed(3)}f + s
 return final_color;`;
 }
 function patchShader(b,preset="bubble",animated=true){const s=b.toString('utf8');if(!(s.startsWith('//scene_cj\r')||s.startsWith('//scene_cj_pbr\r'))||!s.includes('float4 ps_main(PS_INPUT psIN)'))return null;if(!s.includes('float2 local_0')||s.split('return final_color;').length!==2)throw Error('Unexpected build shader');const timber=!!TIMBERS[preset],portrait=!!PORTRAITS[preset];if(portrait&&!/\bsampler2D\s+sam_diffuse\s*(?::\s*register\s*\(\s*s\d+\s*\))?\s*;/.test(s))throw Error('Supported portrait sampler is missing');if(timber&&!/\bfloat\s+diffuse_instensty\s*;/.test(s))throw Error('Supported timber shader binding is missing');const output=s.replace('return final_color;',portrait?portraitFilm(preset,s.startsWith('//scene_cj_pbr')):timber?timberFilm(preset,s.startsWith('//scene_cj_pbr')):preset==='bubble'?film(preset):surfaceFilm(preset,s.startsWith('//scene_cj_pbr'),animated));return Buffer.from(output);}
+function portraitMeshPaths(original,parsed=parseArchive(original),decoded=new Map()){
+ const paths=new Map(),ids=new Set(parsed.entries.map(e=>e[0]));
+ for(const e of parsed.entries){const raw=decoded.get(e[0])||decode(original.subarray(e[1],e[1]+e[2]),e);decoded.set(e[0],raw);if(raw.length<4||raw.readUInt32LE(0)!==0x0d4159c1)continue;
+ for(const node of parseBxml(raw)){const path=node.attrs.Path?.value;if(typeof path!=='string'||!/^model_regular\\structure(?:_jj)?\\.+\.mesh$/i.test(path))continue;const relative=path.slice('model_regular\\'.length).toLowerCase(),id=murmur(Buffer.from(relative));if(!ids.has(id))throw Error('Referenced portrait mesh is missing');paths.set(id,relative);}}
+ return paths;
+}
 function patchArchive(original,name,info,preset="bubble",animated=true){
- if(sha(original)!==info.originalSha256)throw Error('Original archive version differs: '+name);const parsed=parseArchive(original),chunks=[original.subarray(0,parsed.index)];let length=parsed.index,changed=0;const semantic=crypto.createHash('sha256'),portraitModel=!!PORTRAITS[preset]&&name==='model_regular.npk',decoded=new Map(),portraitIds=portraitModel?portraitTextureIds(original,parsed,decoded):null;
- const entries=parsed.entries.map(e=>[...e]);for(const e of entries){const packed=original.subarray(e[1],e[1]+e[2]),raw=decoded.get(e[0])||decode(packed,e),next=portraitModel?(portraitIds.has(e[0])?portraitTexture(preset):null):name==='model_regular.npk'?patchMaterial(raw,preset):patchShader(raw,preset,animated);if(!next)continue;
+ if(sha(original)!==info.originalSha256)throw Error('Original archive version differs: '+name);const parsed=parseArchive(original),chunks=[original.subarray(0,parsed.index)];let length=parsed.index,changed=0;const semantic=crypto.createHash('sha256'),portraitModel=!!PORTRAITS[preset]&&name==='model_regular.npk',decoded=new Map(),portraitIds=portraitModel?portraitTextureIds(original,parsed,decoded):null,meshPaths=portraitModel?portraitMeshPaths(original,parsed,decoded):null;
+ const entries=parsed.entries.map(e=>[...e]);for(const e of entries){const packed=original.subarray(e[1],e[1]+e[2]),raw=decoded.get(e[0])||decode(packed,e),next=portraitModel?(portraitIds.has(e[0])?portraitTexture(preset):meshPaths.has(e[0])?remapPortraitMesh(raw,meshPaths.get(e[0])):null):name==='model_regular.npk'?patchMaterial(raw,preset):patchShader(raw,preset,animated);if(!next)continue;
   const encoded=mask(zlib.deflateSync(next,{level:6}));const padding=(4-length%4)%4;if(padding){chunks.push(Buffer.alloc(padding));length+=padding;}e[1]=length;e[2]=encoded.length;e[3]=next.length;e[4]=murmur(encoded);e[5]=murmur(next);e[6]=65537;if(!decode(encoded,e).equals(next))throw Error('Generated resource verification failed');semantic.update(e[0].toString(16).padStart(8,'0'));semantic.update(Buffer.from(sha(next),'hex'));chunks.push(encoded);length+=encoded.length;changed++;
  }
  if(changed!==(info.resourcesByPreset?.[preset]??info.resources))throw Error('Unexpected changed resource count for '+name);const pad=(4-length%4)%4;if(pad){chunks.push(Buffer.alloc(pad));length+=pad;}const index=length,table=Buffer.alloc(entries.length*28);entries.forEach((e,i)=>e.forEach((v,j)=>table.writeUInt32LE(v,i*28+j*4)));chunks.push(table);const result=Buffer.concat(chunks);result.writeUInt32LE(index,20);parseArchive(result);const expected=info.semanticByPreset?.[preset+(animated?':animated':':still')]||info.semanticByPreset?.[preset]||info.semanticSha256;if(expected&&semantic.digest('hex')!==expected)throw Error('Generated resource content differs');return result;
@@ -97,4 +104,4 @@ function mobileConfig(original){
  if(required.size)throw Error('This neox.xml lacks the supported rendering settings');if(!edits.length)return Buffer.from(original);
  let out=Buffer.from(original);for(const e of edits.sort((a,b)=>b.start-a.start))out=Buffer.concat([out.subarray(0,e.start),e.b,out.subarray(e.end)]);out.writeBigUInt64LE(original.readBigUInt64LE(4)+BigInt(out.length-original.length),4);parseBxml(out);return out;
 }
-module.exports={PRESETS,film,isBuildMaterial,portraitTextureIds,murmur,lz4,mask,parseArchive,decode,parseBxml,patchMaterial,patchShader,patchArchive,mobileConfig,sha};
+module.exports={PRESETS,film,isBuildMaterial,portraitTextureIds,portraitMeshPaths,murmur,lz4,mask,parseArchive,decode,parseBxml,patchMaterial,patchShader,patchArchive,mobileConfig,sha};

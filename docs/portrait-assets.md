@@ -1,4 +1,4 @@
-# Portrait assets — 0.1.11
+# Portrait assets — 0.1.12
 
 Three user-supplied portraits were edited with the built-in image-generation tool in background-extraction mode, with `transparent_background: true`.
 
@@ -16,4 +16,4 @@ Prompt used separately for each input:
 
 The project PNGs are fitted to 480 × 480 inside a transparent 512 × 512 canvas. `tools/pack-portrait-textures.py` packs them as DXT5 DDS assets with ten mip levels, then zlib-compresses them for the application. A transparent corner signature enables the portrait pixel-shader branch using the existing diffuse sampler; no new engine uniform is required. The game material files are retained unchanged for portrait presets.
 
-The shader samples one image without wrapping UV coordinates. Existing CD mesh UVs can still split, mirror or reuse an image across separate pieces; this is not a complete model UV remap. The portrait background is visually cut out; the build's collision remains solid. Previews are image assets, not in-game captures.
+The shader samples one image without wrapping UV coordinates. Version 0.1.12 replaces primary UV coordinates on 298 meshes referenced by structure model configurations. Walls project across X/Y; floors and ramps project across X/Z. Ramp direction is chosen from the height/depth covariance so the portrait head is at the raised end. Each mesh uses its complete bounds, including edited half-width pieces. Only the primary float2 UV bytes change; all other mesh bytes remain identical. Mesh layout, counts, tangent flags and triangle indices are validated before modification. This removes per-plank UV repetition; it does not fill geometric holes or add a new surface. Actual gameplay verification remains necessary. The portrait background is visually cut out; the build's collision remains solid. Previews are image assets, not in-game captures.

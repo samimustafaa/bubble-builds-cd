@@ -12,4 +12,4 @@ Previews are deterministic UV material samples from the shader equations, not ga
 
 Patches are generated locally from supported original game files. No game archives are distributed.
 
-Portrait presets directly replace the 28 referenced build diffuse textures and use alpha to cut out their backgrounds. Images are sampled without UV wrapping; existing mesh UVs can still split or mirror a portrait. In-game placement must be tested. [Portrait asset notes](docs/portrait-assets.md).
+Portrait presets directly replace the 28 referenced build diffuse textures and use alpha to cut out their backgrounds. Version 0.1.12 remaps the primary UV stream of 298 referenced build meshes to one image per whole piece: width/height on walls and width/depth on floors and ramps. Duplicate plank vertices share image coordinates. Positions, indices, normals, tangents, secondary lightmap UVs and collision data remain byte identical. In-game placement still needs validation. [Portrait asset notes](docs/portrait-assets.md).
