@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.14",
+  "version": "0.1.15",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -35,12 +35,21 @@
         "portrait-warm:animated": "c413a21870665d2ee90b2b77513488e534307f9931cad3e258c2009102f58105",
         "portrait-warm:still": "c413a21870665d2ee90b2b77513488e534307f9931cad3e258c2009102f58105",
         "portrait-smile:animated": "010e38c3b290c5153f468371d71d07321c8b1c98241d0d65c234c11872df329d",
-        "portrait-smile:still": "010e38c3b290c5153f468371d71d07321c8b1c98241d0d65c234c11872df329d"
+        "portrait-smile:still": "010e38c3b290c5153f468371d71d07321c8b1c98241d0d65c234c11872df329d",
+        "portrait-tate:animated": "6de074b5f0612d87ae85eddbc10596966abf59f001938db7fb9421f93cd2a3a8",
+        "portrait-tate:still": "6de074b5f0612d87ae85eddbc10596966abf59f001938db7fb9421f93cd2a3a8",
+        "portrait-kakashi:animated": "cf47a36024536b27a7d2969b65866bdacb399fbed3c74afefa34ceab8d53e54e",
+        "portrait-kakashi:still": "cf47a36024536b27a7d2969b65866bdacb399fbed3c74afefa34ceab8d53e54e",
+        "portrait-sharingan:animated": "a9b847aa69973dd529233bee06f4cf425626c1464088ba820059af95e63b7715",
+        "portrait-sharingan:still": "a9b847aa69973dd529233bee06f4cf425626c1464088ba820059af95e63b7715"
       },
       "resourcesByPreset": {
         "portrait-dark": 328,
         "portrait-warm": 328,
-        "portrait-smile": 328
+        "portrait-smile": 328,
+        "portrait-tate": 328,
+        "portrait-kakashi": 328,
+        "portrait-sharingan": 328
       }
     },
     "shader.npk": {
@@ -75,12 +84,21 @@
         "portrait-warm:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "portrait-warm:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "portrait-smile:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "portrait-smile:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        "portrait-smile:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-tate:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-tate:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-kakashi:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-kakashi:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-sharingan:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-sharingan:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       },
       "resourcesByPreset": {
         "portrait-dark": 0,
         "portrait-warm": 0,
-        "portrait-smile": 0
+        "portrait-smile": 0,
+        "portrait-tate": 0,
+        "portrait-kakashi": 0,
+        "portrait-sharingan": 0
       }
     }
   }

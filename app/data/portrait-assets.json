@@ -22,5 +22,29 @@
     "height": 512,
     "mips": 10,
     "compression": "DXT5"
+  },
+  "portrait-tate": {
+    "sha256": "44e4d66ad06fe10c1591fe5c85cb42bbef157ba7064cd07c69f921baf209032a",
+    "bytes": 349680,
+    "width": 512,
+    "height": 512,
+    "mips": 10,
+    "compression": "DXT5"
+  },
+  "portrait-kakashi": {
+    "sha256": "af011d93e79353509ee5801ac33b606657cd2de2bd0288c831d2f387d5244272",
+    "bytes": 349680,
+    "width": 512,
+    "height": 512,
+    "mips": 10,
+    "compression": "DXT5"
+  },
+  "portrait-sharingan": {
+    "sha256": "0ccac57fcc614ffcdb211cebd7ce31363a5d07b8fd5d23ac1e68a6dc21813d20",
+    "bytes": 349680,
+    "width": 512,
+    "height": 512,
+    "mips": 10,
+    "compression": "DXT5"
   }
 }

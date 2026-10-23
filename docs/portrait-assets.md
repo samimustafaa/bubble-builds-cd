@@ -1,14 +1,14 @@
-# Portrait assets — 0.1.14
+# Portrait assets — 0.1.15
 
-Three user-supplied portraits were edited with the built-in image-generation tool in background-extraction mode, with `transparent_background: true`.
+Six user-supplied portraits were edited with the built-in image-generation tool in background-extraction mode, with `transparent_background: true`.
 
 Inputs and selected project assets:
 
 | Input | Project PNG | Test preset |
 |---|---|---|
-| `dbbf7e6c-690e-4dc5-b9d2-16684bed6e9c.png` | `app/assets/portrait-dark.png` | Dark Portrait |
-| `a60060dc-30f1-446c-9d11-43f46065d26f.png` | `app/assets/portrait-warm.png` | Warm Portrait |
-| `images (8).jpg` | `app/assets/portrait-smile.png` | Smiling Portrait |
+| `dbbf7e6c-690e-4dc5-b9d2-16684bed6e9c.png` | `app/assets/portrait-dark.png` | Billie Eillish |
+| `a60060dc-30f1-446c-9d11-43f46065d26f.png` | `app/assets/portrait-warm.png` | Patrick Jane |
+| `images (8).jpg` | `app/assets/portrait-smile.png` | The Mentalist |
 
 Prompt used separately for each input:
 
@@ -19,3 +19,5 @@ The project PNGs are fitted to 480 × 480 inside a transparent 512 × 512 canvas
 The mesh samples one portrait print across the whole piece. Version 0.1.12 replaces primary UV coordinates on 298 meshes referenced by structure model configurations. Walls project across X/Y; floors and ramps project across X/Z. Ramp direction is chosen from the height/depth covariance so the portrait head is at the raised end. Each mesh uses its complete bounds, including edited half-width pieces. Only the primary float2 UV bytes change; all other mesh bytes remain identical. Mesh layout, counts, tangent flags and triangle indices are validated before modification. This removes per-plank UV repetition; it does not fill geometric holes or add a new surface. Actual gameplay verification remains necessary. The portrait background shows the original CD material; the build stays solid. Previews are image assets, not in-game captures.
 
 Version 0.1.14 smooths portrait presets: the original diffuse texture’s smallest mip supplies one base color for all background blocks. Portrait alpha blends over that opaque base. Two referenced structure normal DDS maps become neutral (128,128,255), removing their embossed detail. Original shader construction effects remain. Other presets are unchanged. The uploaded neox(3).xml is byte-identical to the existing mobile configuration reference, so this change targets texture detail instead of inventing new configuration settings.
+
+Version 0.1.15 adds transparent source cutouts for Tate Mcrae (`portrait-tate.png`), Hatake Kakashi (`portrait-kakashi.png`) and Sharingan Kakashi (`portrait-sharingan.png`). Built-in image editing used the same background-extraction prompt above: remove only the background; preserve identity, expression, pose, hair, clothing, colors, style and crop; genuine transparent alpha; no text or added objects. The app composites these over the same smooth opaque build base as existing portraits. Names are labels only and are not printed onto textures.

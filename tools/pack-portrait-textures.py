@@ -4,7 +4,7 @@ from PIL import Image
 import io, struct, hashlib, json, zlib
 root=Path(__file__).resolve().parents[1]
 records={}
-for name in ['portrait-dark','portrait-warm','portrait-smile']:
+for name in ['portrait-dark','portrait-warm','portrait-smile','portrait-tate','portrait-kakashi','portrait-sharingan']:
     source=Image.open(root/'app/assets'/f'{name}.png').convert('RGBA')
     assert source.size==(512,512)
     alpha=source.getchannel('A');assert alpha.getextrema()==(0,255)
