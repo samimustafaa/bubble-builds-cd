@@ -13,3 +13,7 @@ Previews are deterministic UV material samples from the shader equations, not ga
 Patches are generated locally from supported original game files. No game archives are distributed.
 
 Portrait presets print the selected person over a smooth solid base sampled from the original CD material’s average color. Version 0.1.14 removes diffuse grain and flattens two build normal maps for portrait presets only. It composites BC3 textures locally from the verified game backup and restores the original build shaders, including lighting and construction effects. Whole-piece UV mapping from 0.1.12 is retained on 298 build meshes. Only primary UV bytes change in geometry; collision and animation data remain unchanged. In-game appearance still needs validation. [Portrait asset notes](docs/portrait-assets.md).
+
+### MP4 & GIF loops
+
+The MP4 & GIF tab contains curated video-animation presets. Trunks — Aura Loop uses the supplied clip, with the orange backdrop removed and its brighter energy aura retained. It loops 170 frames at 8 fps (21.25 seconds). The animated preview is WebP; game playback uses one shared 4096×4096 DDS atlas and the existing shader clock, not direct MP4 decoding. Apply with the game closed. The loop always runs; the Surface animation option does not pause video presets. This is experimental and needs in-game verification. A 4096-pixel texture adds GPU memory use and may be unsuitable for some older graphics hardware. The tab is not an arbitrary-file import interface.

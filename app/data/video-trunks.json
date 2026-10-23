@@ -1,0 +1,13 @@
+{
+  "frames": 170,
+  "fps": 8,
+  "grid": 16,
+  "tile": 256,
+  "inset": 16,
+  "content": 224,
+  "size": 4096,
+  "seconds": 21.25,
+  "mips": 13,
+  "bytes": 22369776,
+  "sha256": "9d506b21e267e225c47f25b2a1f9a1fd2600ddd54c086437702fc84880069f6c"
+}

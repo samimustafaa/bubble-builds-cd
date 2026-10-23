@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.16",
+  "version": "0.1.17",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -45,7 +45,9 @@
         "portrait-goku:animated": "f844c5a3aaaf46e1141736c127ccb0ecb17b8f975b16775dfa17e8392ef0f2b2",
         "portrait-goku:still": "f844c5a3aaaf46e1141736c127ccb0ecb17b8f975b16775dfa17e8392ef0f2b2",
         "portrait-goku-ssj:animated": "3fcce2d8ae0185b6c287a19ef3376fa4aef793a5a344dfe72b5b02e85a9a8db0",
-        "portrait-goku-ssj:still": "3fcce2d8ae0185b6c287a19ef3376fa4aef793a5a344dfe72b5b02e85a9a8db0"
+        "portrait-goku-ssj:still": "3fcce2d8ae0185b6c287a19ef3376fa4aef793a5a344dfe72b5b02e85a9a8db0",
+        "video-trunks:animated": "5cd5fed61bd9f1dba683b5dc6eb36167d89c4afae26f45bfe7fe2d8a99c07db1",
+        "video-trunks:still": "5cd5fed61bd9f1dba683b5dc6eb36167d89c4afae26f45bfe7fe2d8a99c07db1"
       },
       "resourcesByPreset": {
         "portrait-dark": 328,
@@ -55,7 +57,8 @@
         "portrait-kakashi": 328,
         "portrait-sharingan": 328,
         "portrait-goku": 328,
-        "portrait-goku-ssj": 328
+        "portrait-goku-ssj": 328,
+        "video-trunks": 610
       }
     },
     "shader.npk": {
@@ -100,7 +103,9 @@
         "portrait-goku:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "portrait-goku:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "portrait-goku-ssj:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "portrait-goku-ssj:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        "portrait-goku-ssj:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "video-trunks:animated": "e9d9db8b7ddf321d710411f8a1a73eff45fdd95c178fca03fa71e7d9b9703c5f",
+        "video-trunks:still": "e9d9db8b7ddf321d710411f8a1a73eff45fdd95c178fca03fa71e7d9b9703c5f"
       },
       "resourcesByPreset": {
         "portrait-dark": 0,
@@ -110,7 +115,8 @@
         "portrait-kakashi": 0,
         "portrait-sharingan": 0,
         "portrait-goku": 0,
-        "portrait-goku-ssj": 0
+        "portrait-goku-ssj": 0,
+        "video-trunks": 2
       }
     }
   }
