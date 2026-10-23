@@ -6,7 +6,9 @@ const PORTRAITS={
  'portrait-smile':{name:'The Mentalist',number:'12',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-smile.png'},
  'portrait-tate':{name:'Tate Mcrae',number:'13',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-tate.png'},
  'portrait-kakashi':{name:'Hatake Kakashi',number:'14',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-kakashi.png'},
- 'portrait-sharingan':{name:'Sharingan Kakashi',number:'15',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-sharingan.png'}
+ 'portrait-sharingan':{name:'Sharingan Kakashi',number:'15',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-sharingan.png'},
+ 'portrait-goku':{name:'Goku Blue',number:'16',motion:'Smooth mobile build · blue aura',quality:'portrait',static:true,preview:'assets/portrait-goku.png'},
+ 'portrait-goku-ssj':{name:'Goku blue ssj',number:'17',motion:'Smooth mobile build · blue aura',quality:'portrait',static:true,preview:'assets/portrait-goku-ssj.png'}
 };
 const cache=new Map();
 function portraitTexture(id){

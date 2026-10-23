@@ -46,5 +46,21 @@
     "height": 512,
     "mips": 10,
     "compression": "DXT5"
+  },
+  "portrait-goku": {
+    "sha256": "5113f4862d42446c522eb86f8edf4733862b7dad786ec5af595ffd190407f20b",
+    "bytes": 349680,
+    "width": 512,
+    "height": 512,
+    "mips": 10,
+    "compression": "DXT5"
+  },
+  "portrait-goku-ssj": {
+    "sha256": "0790c1412173bb876ef61410670d71be9aacddbc966ef5bd5bf2581d699bcc83",
+    "bytes": 349680,
+    "width": 512,
+    "height": 512,
+    "mips": 10,
+    "compression": "DXT5"
   }
 }

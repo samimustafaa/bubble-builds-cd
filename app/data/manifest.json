@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.15",
+  "version": "0.1.16",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -41,7 +41,11 @@
         "portrait-kakashi:animated": "cf47a36024536b27a7d2969b65866bdacb399fbed3c74afefa34ceab8d53e54e",
         "portrait-kakashi:still": "cf47a36024536b27a7d2969b65866bdacb399fbed3c74afefa34ceab8d53e54e",
         "portrait-sharingan:animated": "a9b847aa69973dd529233bee06f4cf425626c1464088ba820059af95e63b7715",
-        "portrait-sharingan:still": "a9b847aa69973dd529233bee06f4cf425626c1464088ba820059af95e63b7715"
+        "portrait-sharingan:still": "a9b847aa69973dd529233bee06f4cf425626c1464088ba820059af95e63b7715",
+        "portrait-goku:animated": "f844c5a3aaaf46e1141736c127ccb0ecb17b8f975b16775dfa17e8392ef0f2b2",
+        "portrait-goku:still": "f844c5a3aaaf46e1141736c127ccb0ecb17b8f975b16775dfa17e8392ef0f2b2",
+        "portrait-goku-ssj:animated": "3fcce2d8ae0185b6c287a19ef3376fa4aef793a5a344dfe72b5b02e85a9a8db0",
+        "portrait-goku-ssj:still": "3fcce2d8ae0185b6c287a19ef3376fa4aef793a5a344dfe72b5b02e85a9a8db0"
       },
       "resourcesByPreset": {
         "portrait-dark": 328,
@@ -49,7 +53,9 @@
         "portrait-smile": 328,
         "portrait-tate": 328,
         "portrait-kakashi": 328,
-        "portrait-sharingan": 328
+        "portrait-sharingan": 328,
+        "portrait-goku": 328,
+        "portrait-goku-ssj": 328
       }
     },
     "shader.npk": {
@@ -90,7 +96,11 @@
         "portrait-kakashi:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "portrait-kakashi:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "portrait-sharingan:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "portrait-sharingan:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        "portrait-sharingan:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-goku:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-goku:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-goku-ssj:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "portrait-goku-ssj:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       },
       "resourcesByPreset": {
         "portrait-dark": 0,
@@ -98,7 +108,9 @@
         "portrait-smile": 0,
         "portrait-tate": 0,
         "portrait-kakashi": 0,
-        "portrait-sharingan": 0
+        "portrait-sharingan": 0,
+        "portrait-goku": 0,
+        "portrait-goku-ssj": 0
       }
     }
   }

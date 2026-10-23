@@ -1,4 +1,4 @@
-# Portrait assets — 0.1.15
+# Portrait assets — 0.1.16
 
 Six user-supplied portraits were edited with the built-in image-generation tool in background-extraction mode, with `transparent_background: true`.
 
@@ -21,3 +21,5 @@ The mesh samples one portrait print across the whole piece. Version 0.1.12 repla
 Version 0.1.14 smooths portrait presets: the original diffuse texture’s smallest mip supplies one base color for all background blocks. Portrait alpha blends over that opaque base. Two referenced structure normal DDS maps become neutral (128,128,255), removing their embossed detail. Original shader construction effects remain. Other presets are unchanged. The uploaded neox(3).xml is byte-identical to the existing mobile configuration reference, so this change targets texture detail instead of inventing new configuration settings.
 
 Version 0.1.15 adds transparent source cutouts for Tate Mcrae (`portrait-tate.png`), Hatake Kakashi (`portrait-kakashi.png`) and Sharingan Kakashi (`portrait-sharingan.png`). Built-in image editing used the same background-extraction prompt above: remove only the background; preserve identity, expression, pose, hair, clothing, colors, style and crop; genuine transparent alpha; no text or added objects. The app composites these over the same smooth opaque build base as existing portraits. Names are labels only and are not printed onto textures.
+
+Version 0.1.16 adds Goku Blue (`portrait-goku.png`, source `701862.jpg`) and Goku blue ssj (`portrait-goku-ssj.png`, source `images.jpg`). With user authorization, Python/Pillow masks preserve the source character and surrounding blue/cyan energy aura. Protected character outlines retain opacity; color selection and distance feathering fade the outer aura to transparency. This edits alpha only before resizing; no RGB artwork is generated. `tools/prepare-goku-aura.py` reproduces the conversion from user-supplied photos. PNGs use the existing 512-pixel texture and opaque smooth build compositing pipeline.
