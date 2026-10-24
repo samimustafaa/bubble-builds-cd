@@ -9,3 +9,11 @@ Source: user-supplied `trunks-torankusu.3840x2160.mp4`, 3840×2160, 30 fps, 21.2
 309 structure material resources redirect their diffuse values and File dependencies to the existing `model_regular\structure\floor_003_color.dds` resource. Nine materials already use that path. One atlas is stored instead of replacing every diffuse resource with a duplicate atlas. 298 mesh primary UV streams use the existing whole-piece projection; two normal maps are flattened. Geometry, secondary UVs and collision stay intact. Total modified model resources: 610; shader resources: 2. All other preset algorithms and semantic hashes remain unchanged.
 
 The final appearance, game texture-cache behavior and driver support still require an in-game test. Desktop tests and shader compilation cannot establish runtime playback. Atlas decoding and the GPU texture require more memory than a static portrait. This first loop has reduced frame size and frame rate; it does not preserve 4K/30 fps source quality. Looping restarts the supplied sequence; no seamless-loop claim is made.
+
+## Quality and smoothness revision — 0.1.18
+
+The active loop now uses the first four seconds, sampled at 16 fps: 64 frames in an 8×8 grid of 512-pixel cells. Each frame canvas is 480×480, compared with 224×224 in 0.1.17 (2.14× width, 4.59× canvas pixels). Source processing increases from 768×432 to 1536×864. Preview encoding increases to WebP quality 90, with alternating 62/63 ms frame delays. The last eight frames ease back to the opening frame to reduce the restart jump. This is a shorter loop, not a full-length quality-preserving re-encode.
+
+The game shader blends adjacent frames using the fractional shader clock. This is temporal crossfading, not motion-estimation interpolation; moving edges can show ghosting. One extra atlas sample is needed. Texture dimensions, mip count, DDS byte count, shared resource strategy and GPU texture allocation remain the same. No game FPS improvement is claimed. The desktop app switches animated previews to static posters when their tab is hidden, avoiding unnecessary background preview playback.
+
+Both Goku presets and their packaged assets are removed. Trunks becomes preset 16. Original materials, mesh geometry/collision and other preset algorithms remain as before. Runtime quality, playback and FPS must be checked in game.

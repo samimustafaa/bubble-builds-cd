@@ -1,13 +1,13 @@
 {
-  "frames": 170,
-  "fps": 8,
-  "grid": 16,
-  "tile": 256,
+  "frames": 64,
+  "fps": 16,
+  "grid": 8,
+  "tile": 512,
   "inset": 16,
-  "content": 224,
+  "content": 480,
   "size": 4096,
-  "seconds": 21.25,
+  "seconds": 4.0,
   "mips": 13,
   "bytes": 22369776,
-  "sha256": "9d506b21e267e225c47f25b2a1f9a1fd2600ddd54c086437702fc84880069f6c"
+  "sha256": "fe45a92757551bd22d0466a96b062d83583f6fca95b4fc1b594bb81a7d35092b"
 }

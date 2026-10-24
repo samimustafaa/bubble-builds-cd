@@ -9,11 +9,11 @@ function buildMaterial(ref='model_regular\\structure\\wall.dds'){
 function archive(items){let offset=24;const data=[],entries=[];for(const [id,raw]of items){entries.push([id,offset,raw.length,raw.length,p.murmur(raw),p.murmur(raw),0]);data.push(raw);offset+=raw.length;}const head=Buffer.alloc(24);head.write('NXPK');head.writeUInt32LE(items.length,4);head.writeUInt32LE(offset,20);const table=Buffer.alloc(items.length*28);entries.forEach((e,i)=>e.forEach((v,j)=>table.writeUInt32LE(v,i*28+j*4)));return Buffer.concat([head,...data,table]);}
 function rawEntries(b){return new Map(p.parseArchive(b).entries.map(e=>[e[0],p.decode(b.subarray(e[1],e[1]+e[2]),e)]));}
 test('portrait DDS assets retain BC3 alpha, signature and a complete mip chain',()=>{
- assert.equal(Object.keys(PORTRAITS).length,8);const unique=new Set();for(const id of Object.keys(PORTRAITS)){
+ assert.equal(Object.keys(PORTRAITS).length,6);const unique=new Set();for(const id of Object.keys(PORTRAITS)){
   const b=portraitTexture(id);unique.add(p.sha(b));assert.equal(b.toString('ascii',84,88),'DXT5');assert.equal(b.readUInt32LE(28),10);let size=128;for(let w=512;w>=1;w>>=1)size+=Math.ceil(w/4)**2*16;assert.equal(b.length,size);
   const block=b.subarray(128,144);assert.equal(block[0],0);assert.equal(block[1],0);const colors=[block.readUInt16LE(8),block.readUInt16LE(10)],index=block.readUInt32LE(12)&3;assert(index<2);const c=colors[index];assert.equal(c&31,31);assert.equal((c>>>11)&31,31);assert.equal((c>>>5)&63,0);
   const top=b.subarray(128,128+512*512);let opaque=false;for(let i=0;i<top.length;i+=16)if(top[i]===255||top[i+1]===255){opaque=true;break;}assert(opaque,'Portrait must contain visible pixels');
- }assert.equal(unique.size,8);
+ }assert.equal(unique.size,6);
 });
 test('portrait replacement changes only referenced diffuse DDS entries, preserving materials and other textures',()=>{
  const id=p.murmur(Buffer.from('structure\\wall.dds')),material=buildMaterial(),original=archive([[1,material],[id,portraitTexture('portrait-warm')],[3,Buffer.from('DDS unrelated normal fixture')],[4,Buffer.from('unrelated geometry fixture')]]),meta={originalSha256:p.sha(original),resources:318,resourcesByPreset:{'portrait-dark':1}};

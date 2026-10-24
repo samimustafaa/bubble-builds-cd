@@ -21,7 +21,7 @@ function handle(channel,fn){ipcMain.handle(channel,async(e,...a)=>{
  try{return {ok:true,value:await fn(...a)};}catch(error){return {ok:false,error:['EACCES','EPERM'].includes(error.code)?'Windows denied access. Close the game and check folder permissions; backups are kept.':error.message};}
 });}
 async function save(){await atomic(prefs,JSON.stringify(settings,null,2));}
-async function state(){let status=null;if(settings.folder)try{status=await engine.status(settings.folder);}catch(e){status={error:e.message,root:settings.folder};}return {version:app.getVersion(),windows:process.platform==='win32',folder:settings.folder,repo:settings.repo,animations:settings.animations!==false,presets:[...Object.entries(PRESETS).map(([id,p])=>({id,name:p.name,number:p.number||'',motion:p.motion||'Soft Pearl · subtle bubble shading',quality:p.quality||'bubble',supportsAnimation:id!=='bubble'&&!p.static,image:p.preview||'assets/'+id+'-sample.png'}))],status};}
+async function state(){let status=null;if(settings.folder)try{status=await engine.status(settings.folder);}catch(e){status={error:e.message,root:settings.folder};}return {version:app.getVersion(),windows:process.platform==='win32',folder:settings.folder,repo:settings.repo,animations:settings.animations!==false,presets:[...Object.entries(PRESETS).map(([id,p])=>({id,name:p.name,number:p.number||'',motion:p.motion||'Soft Pearl · subtle bubble shading',quality:p.quality||'bubble',supportsAnimation:id!=='bubble'&&!p.static,poster:p.poster||null,image:p.preview||'assets/'+id+'-sample.png'}))],status};}
 if(!app.requestSingleInstanceLock())app.quit();else{
  app.setAppUserModelId('com.sg0hann.bubblebuilds');
  app.whenReady().then(async()=>{
