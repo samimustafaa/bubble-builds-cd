@@ -1,0 +1,284 @@
+{
+  "portrait-dark": {
+    "file": "portrait-dark.aura.z",
+    "sha256": "f02af204d0843843687f2fbd9aa16b4e987e865f50ef2b754981dd856046952a",
+    "bytes": 349525,
+    "levels": [
+      {
+        "width": 512,
+        "offset": 0
+      },
+      {
+        "width": 256,
+        "offset": 262144
+      },
+      {
+        "width": 128,
+        "offset": 327680
+      },
+      {
+        "width": 64,
+        "offset": 344064
+      },
+      {
+        "width": 32,
+        "offset": 348160
+      },
+      {
+        "width": 16,
+        "offset": 349184
+      },
+      {
+        "width": 8,
+        "offset": 349440
+      },
+      {
+        "width": 4,
+        "offset": 349504
+      },
+      {
+        "width": 2,
+        "offset": 349520
+      },
+      {
+        "width": 1,
+        "offset": 349524
+      }
+    ]
+  },
+  "portrait-warm": {
+    "file": "portrait-warm.aura.z",
+    "sha256": "78756e8e0eea67d26c9a8328912b78978bba37cdc58a5c503b2a34377f2f49f0",
+    "bytes": 349525,
+    "levels": [
+      {
+        "width": 512,
+        "offset": 0
+      },
+      {
+        "width": 256,
+        "offset": 262144
+      },
+      {
+        "width": 128,
+        "offset": 327680
+      },
+      {
+        "width": 64,
+        "offset": 344064
+      },
+      {
+        "width": 32,
+        "offset": 348160
+      },
+      {
+        "width": 16,
+        "offset": 349184
+      },
+      {
+        "width": 8,
+        "offset": 349440
+      },
+      {
+        "width": 4,
+        "offset": 349504
+      },
+      {
+        "width": 2,
+        "offset": 349520
+      },
+      {
+        "width": 1,
+        "offset": 349524
+      }
+    ]
+  },
+  "portrait-smile": {
+    "file": "portrait-smile.aura.z",
+    "sha256": "fa484c897c8651f1cffdaf273b763180b775bcfedcafa7541e757cb32a46e0d7",
+    "bytes": 349525,
+    "levels": [
+      {
+        "width": 512,
+        "offset": 0
+      },
+      {
+        "width": 256,
+        "offset": 262144
+      },
+      {
+        "width": 128,
+        "offset": 327680
+      },
+      {
+        "width": 64,
+        "offset": 344064
+      },
+      {
+        "width": 32,
+        "offset": 348160
+      },
+      {
+        "width": 16,
+        "offset": 349184
+      },
+      {
+        "width": 8,
+        "offset": 349440
+      },
+      {
+        "width": 4,
+        "offset": 349504
+      },
+      {
+        "width": 2,
+        "offset": 349520
+      },
+      {
+        "width": 1,
+        "offset": 349524
+      }
+    ]
+  },
+  "portrait-tate": {
+    "file": "portrait-tate.aura.z",
+    "sha256": "09bec5d23df1f3de561f1035dc13ecfc88a3b2abddd4c472f32618594c13b058",
+    "bytes": 349525,
+    "levels": [
+      {
+        "width": 512,
+        "offset": 0
+      },
+      {
+        "width": 256,
+        "offset": 262144
+      },
+      {
+        "width": 128,
+        "offset": 327680
+      },
+      {
+        "width": 64,
+        "offset": 344064
+      },
+      {
+        "width": 32,
+        "offset": 348160
+      },
+      {
+        "width": 16,
+        "offset": 349184
+      },
+      {
+        "width": 8,
+        "offset": 349440
+      },
+      {
+        "width": 4,
+        "offset": 349504
+      },
+      {
+        "width": 2,
+        "offset": 349520
+      },
+      {
+        "width": 1,
+        "offset": 349524
+      }
+    ]
+  },
+  "portrait-kakashi": {
+    "file": "portrait-kakashi.aura.z",
+    "sha256": "e14970164a2dbd2ae62adf177f7d83da1001e0166ee1b033cdf7e3faefe2a925",
+    "bytes": 349525,
+    "levels": [
+      {
+        "width": 512,
+        "offset": 0
+      },
+      {
+        "width": 256,
+        "offset": 262144
+      },
+      {
+        "width": 128,
+        "offset": 327680
+      },
+      {
+        "width": 64,
+        "offset": 344064
+      },
+      {
+        "width": 32,
+        "offset": 348160
+      },
+      {
+        "width": 16,
+        "offset": 349184
+      },
+      {
+        "width": 8,
+        "offset": 349440
+      },
+      {
+        "width": 4,
+        "offset": 349504
+      },
+      {
+        "width": 2,
+        "offset": 349520
+      },
+      {
+        "width": 1,
+        "offset": 349524
+      }
+    ]
+  },
+  "portrait-sharingan": {
+    "file": "portrait-sharingan.aura.z",
+    "sha256": "4deda47ef190ab0461bb173b5feae530bcf01190b1e66879a1bd8f5793907073",
+    "bytes": 349525,
+    "levels": [
+      {
+        "width": 512,
+        "offset": 0
+      },
+      {
+        "width": 256,
+        "offset": 262144
+      },
+      {
+        "width": 128,
+        "offset": 327680
+      },
+      {
+        "width": 64,
+        "offset": 344064
+      },
+      {
+        "width": 32,
+        "offset": 348160
+      },
+      {
+        "width": 16,
+        "offset": 349184
+      },
+      {
+        "width": 8,
+        "offset": 349440
+      },
+      {
+        "width": 4,
+        "offset": 349504
+      },
+      {
+        "width": 2,
+        "offset": 349520
+      },
+      {
+        "width": 1,
+        "offset": 349524
+      }
+    ]
+  }
+}

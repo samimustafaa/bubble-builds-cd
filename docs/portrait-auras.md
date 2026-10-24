@@ -1,0 +1,11 @@
+# Portrait aura tests — 0.1.19
+
+Seven choices apply to each of the six existing portraits: Electric Blue, Ice Cyan, Saiyan Gold, Fire Orange, Violet, Rose Pink and Emerald. Off applies the original static portrait preset. Forty-two internal variants are hidden from the preset gallery and selected by the Aura menu. Existing bubbles, wood and Trunks are unchanged.
+
+`tools/pack-aura-masks.py` derives a distance-to-silhouette mask from each authored transparent portrait PNG. Foreground pixels encode 224–255, the outer glow band encodes 1–96, and background beyond the band encodes zero. The 128 threshold separates foreground and background even after BC3 alpha compression. The outer band is at most 32 pixels wide at the 512-pixel source size. Mip masks scale with texture size.
+
+The generated diffuse textures retain the existing printed RGB blocks. Only BC3 alpha bytes and an 8×8 texture-identification corner are changed. The shader detects that corner through a fixed-LOD sample, restores opaque diffuse alpha before the original lighting/construction calculations, and repairs the marker RGB from the existing smooth base. This avoids making solid builds transparent. At output, a rising sine/noise pattern modulates color only where the outside glow mask is nonzero. No vertex motion or portrait UV movement is introduced, and final construction alpha is not overwritten. The aura runs from the existing FrameTime uniform; no custom game binding is introduced. Far background and foreground RGB are retained. Glow pixels themselves necessarily receive the selected aura color.
+
+Two alpha templates per portrait (512 and 1024) are cached and reused across the referenced diffuse textures, reducing generation time. Colors share identical model outputs and differ only in their shader constants. Internal variant model resources: 328; shader resources: 2. No original game archive or shader source is bundled.
+
+The UI keeps its original blue preview background around the transparent PNG, animates only drop shadows, and respects reduced-motion preferences for that preview. This is an illustrative preview, not a gameplay capture or a precise rendering of the game shader. Applying requires closing the game. Actual aura appearance, texture-LOD behavior and performance require in-game verification.

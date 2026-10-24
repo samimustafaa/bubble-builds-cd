@@ -19,3 +19,7 @@ Portrait presets print the selected person over a smooth solid base sampled from
 The MP4 & GIF tab contains curated video-animation presets. Trunks — Aura Loop keeps the brighter orange energy aura over a smooth solid build base. Version 0.1.18 uses a shorter 4-second loop, 64 frames at 16 fps, and 480-pixel frame canvases (up from 224). Neighboring frames blend continuously in the game shader. The final half-second eases back to the first frame. The shared atlas remains 4096×4096, so its GPU texture allocation is unchanged; blending adds one texture sample. The app stops animated previews when the Images tab is shown. Both Goku presets have been removed.
 
 Apply with the game closed. Video loops always run; Surface animation does not pause them. Preview playback is WebP; game playback uses the atlas and shader clock, not direct MP4 decoding. This remains experimental and needs in-game verification. The tab is not an arbitrary-file import interface.
+
+### Portrait auras
+
+Choose a portrait, select **Aura → Electric Blue, Ice Cyan, Saiyan Gold, Fire Orange, Violet, Rose Pink or Emerald**, then Apply with the game closed. **Off** keeps the existing portrait appearance. Only the glow outside the portrait silhouette animates; the portrait stays still and the build base color is retained. The app remembers the last applied aura. The preview is an animated UI illustration of the chosen color; shader motion must be checked in game. Video loops are unchanged.

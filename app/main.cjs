@@ -3,6 +3,7 @@ const {app,BrowserWindow,ipcMain,dialog,shell,screen}=require('electron');
 const fs=require('node:fs/promises'),path=require('node:path'),{execFile}=require('node:child_process'),{promisify}=require('node:util'),{pathToFileURL}=require('node:url');
 const {BuildEngine,atomic}=require('./engine.cjs'),{Updates}=require('./updates.cjs'),{autoUpdater}=require('electron-updater');
 const {PRESETS}=require('./patcher.cjs');
+const {AURAS,AURA_PRESETS}=require('./auras.cjs');
 const run=promisify(execFile),page=pathToFileURL(path.join(__dirname,'index.html')).href;
 let win,engine,updates,settings={folder:'',repo:'samimustafaa/bubble-builds-cd'},prefs;
 async function gameStatus(root){
@@ -21,7 +22,7 @@ function handle(channel,fn){ipcMain.handle(channel,async(e,...a)=>{
  try{return {ok:true,value:await fn(...a)};}catch(error){return {ok:false,error:['EACCES','EPERM'].includes(error.code)?'Windows denied access. Close the game and check folder permissions; backups are kept.':error.message};}
 });}
 async function save(){await atomic(prefs,JSON.stringify(settings,null,2));}
-async function state(){let status=null;if(settings.folder)try{status=await engine.status(settings.folder);}catch(e){status={error:e.message,root:settings.folder};}return {version:app.getVersion(),windows:process.platform==='win32',folder:settings.folder,repo:settings.repo,animations:settings.animations!==false,presets:[...Object.entries(PRESETS).map(([id,p])=>({id,name:p.name,number:p.number||'',motion:p.motion||'Soft Pearl · subtle bubble shading',quality:p.quality||'bubble',supportsAnimation:id!=='bubble'&&!p.static,poster:p.poster||null,image:p.preview||'assets/'+id+'-sample.png'}))],status};}
+async function state(){let status=null;if(settings.folder)try{status=await engine.status(settings.folder);}catch(e){status={error:e.message,root:settings.folder};}return {version:app.getVersion(),windows:process.platform==='win32',folder:settings.folder,repo:settings.repo,animations:settings.animations!==false,aura:settings.aura||'none',auras:Object.entries(AURAS).map(([id,a])=>({id,...a})),presets:[...Object.entries(PRESETS).filter(([,p])=>!p.hidden).map(([id,p])=>({id,name:p.name,number:p.number||'',motion:p.motion||'Soft Pearl · subtle bubble shading',quality:p.quality||'bubble',supportsAnimation:id!=='bubble'&&!p.static,poster:p.poster||null,image:p.preview||'assets/'+id+'-sample.png'}))],status};}
 if(!app.requestSingleInstanceLock())app.quit();else{
  app.setAppUserModelId('com.sg0hann.bubblebuilds');
  app.whenReady().then(async()=>{
@@ -33,7 +34,7 @@ if(!app.requestSingleInstanceLock())app.quit();else{
   win=new BrowserWindow({width:Math.min(940,workArea.width),height:Math.min(850,workArea.height),resizable:false,maximizable:false,show:false,backgroundColor:'#101214',title:'Bubble Builds - sg0hann',icon:path.join(__dirname,'assets/app.png'),autoHideMenuBar:true,webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));win.webContents.on('will-navigate',(e,url)=>{if(url!==page)e.preventDefault();});
   handle('state',state);handle('choose',async()=>{if(engine.busy||updates.busy)throw Error('Wait for the current operation.');const r=await dialog.showOpenDialog(win,{title:'Choose Creative Destruction',defaultPath:settings.folder||'C:\\Creative Destruction',properties:['openDirectory']});if(r.canceled)return state();settings.folder=await engine.root(r.filePaths[0]);await save();return state();});
-  handle('apply',async(preset,animated=true)=>{if(updates.busy)throw Error('Wait for the app update.');if(typeof animated!=='boolean')throw Error('Choose a valid animation setting.');await engine.apply(settings.folder,preset,s=>send('progress',s),animated);settings.animations=animated;await save();return state();});
+  handle('apply',async(preset,animated=true)=>{if(updates.busy)throw Error('Wait for the app update.');if(typeof animated!=='boolean')throw Error('Choose a valid animation setting.');await engine.apply(settings.folder,preset,s=>send('progress',s),animated);settings.animations=animated;settings.aura=AURA_PRESETS[preset]?.aura||'none';await save();return state();});
   handle('restore',async()=>{if(updates.busy)throw Error('Wait for the app update.');await engine.restore(settings.folder,s=>send('progress',s));return state();});
   handle('backups',async()=>{await fs.mkdir(path.join(user,'backups'),{recursive:true});const error=await shell.openPath(path.join(user,'backups'));if(error)throw Error(error);});
   handle('check',()=>updates.check().then(()=>null));handle('update',()=>updates.install());
