@@ -22,4 +22,4 @@ Apply with the game closed. Video loops always run; Surface animation does not p
 
 ### Portrait auras
 
-Choose a portrait, select **Aura → Electric Blue, Ice Cyan, Saiyan Gold, Fire Orange, Violet, Rose Pink or Emerald**, then Apply with the game closed. **Off** keeps the existing portrait appearance. Only the glow outside the portrait silhouette animates; the portrait stays still and the build base color is retained. The app remembers the last applied aura. The preview is an animated UI illustration of the chosen color; shader motion must be checked in game. Video loops are unchanged.
+Choose a portrait, click one of the labeled color circles beneath the portrait gallery: **Electric Blue, Ice Cyan, Saiyan Gold, Fire Orange, Violet, Rose Pink or Emerald**, then Apply with the game closed. **Off** keeps the existing portrait appearance. Only the glow outside the portrait silhouette animates; the portrait stays still and the build base color is retained. The app remembers the last applied aura. The preview is an animated UI illustration of the chosen color; shader motion must be checked in game. Video loops are unchanged.
