@@ -10,3 +10,6 @@ test('ramps use a continuous depth projection with the head at the elevated end'
  const b=mesh([[-25,0,-25],[25,0,-25],[-25,0,25],[25,0,25]]);assert.deepEqual(coords(remapPortraitMesh(b,'structure/floor.mesh')),[[0,1],[1,1],[0,0],[1,0]]);
 });
 test('unknown or truncated mesh layouts fail before patching',()=>{const b=mesh([[-1,0,0],[1,1,1],[-1,1,1]]);assert.throws(()=>meshLayout(b.subarray(0,50)),/Truncated/);const bad=Buffer.from(b);bad.writeUInt16LE(3,24);assert.throws(()=>meshLayout(bad),/Unsupported/);});
+test('portrait edge cleanup hides risers while preserving main faces, vertices and collision payload',()=>{
+ const {hidePortraitEdges}=require('../app/portrait-mesh.cjs');for(const name of ['floor.mesh','upstair.mesh','wall.mesh']){const b=mesh([[0,0,0],[1,0,0],[0,0,1],[0,1,0]]),{uv}=meshLayout(b),o=uv-12,main=/wall/.test(name)?[0,1,3]:[0,1,2],side=/wall/.test(name)?[0,1,2]:[0,1,3];[...main,...side].forEach((v,i)=>b.writeUInt16LE(v,o+i*2));const out=hidePortraitEdges(b,name);assert.deepEqual(out.subarray(o,o+6),b.subarray(o,o+6));assert.deepEqual([out.readUInt16LE(o+6),out.readUInt16LE(o+8),out.readUInt16LE(o+10)],[0,0,0]);assert.deepEqual(out.subarray(0,o),b.subarray(0,o));assert.deepEqual(out.subarray(o+12),b.subarray(o+12));}
+});

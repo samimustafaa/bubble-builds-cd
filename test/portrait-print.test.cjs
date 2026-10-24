@@ -10,3 +10,5 @@ test('smooth portraits erase surface pattern and flatten embossed normal detail'
  const {flatTexture}=require('../app/portrait-print.cjs'),source=solidDDS(31,255),l=layout(source)[0];source.writeUInt16LE(63488,l.o+8);source.writeUInt16LE(63488,l.o+10);const smooth=flatTexture(source);assert.deepEqual(decodeBlock(smooth,l.o),decodeBlock(smooth,l.o+16));assert.deepEqual([...decodeBlock(smooth,l.o).subarray(0,4)],[0,0,255,255]);
  const normal=flatTexture(source,true);for(const mip of layout(normal)){const p=decodeBlock(normal,mip.o);assert(Math.abs(p[0]-128)<5);assert(Math.abs(p[1]-128)<5);assert.equal(p[2],255);assert.equal(p[3],255);}assert.deepEqual(source.subarray(0,128),smooth.subarray(0,128));
 });
+
+test('portrait backgrounds retain the original CD texture pattern instead of an averaged fill',()=>{const original=solidDDS(31,255),portrait=solidDDS(63488,0),top=layout(original)[0];original.writeUInt16LE(2016,top.o+8);original.writeUInt16LE(2016,top.o+10);const out=printPortrait(original,portrait);assert.deepEqual(out.subarray(top.o,top.o+32),original.subarray(top.o,top.o+32));assert.notDeepEqual(decodeBlock(out,top.o),decodeBlock(out,top.o+16));});

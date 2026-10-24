@@ -1,12 +1,12 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),zlib=require('node:zlib'),crypto=require('node:crypto'),assets=require('./data/portrait-assets.json');
 const PORTRAITS={
- 'portrait-dark':{name:'Billie Eillish',number:'10',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-dark.png'},
- 'portrait-warm':{name:'Patrick Jane',number:'11',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-warm.png'},
- 'portrait-smile':{name:'The Mentalist',number:'12',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-smile.png'},
- 'portrait-tate':{name:'Tate Mcrae',number:'13',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-tate.png'},
- 'portrait-kakashi':{name:'Hatake Kakashi',number:'14',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-kakashi.png'},
- 'portrait-sharingan':{name:'Sharingan Kakashi',number:'15',motion:'Smooth mobile build · portrait print',quality:'portrait',static:true,preview:'assets/portrait-sharingan.png'}
+ 'portrait-dark':{name:'Billie Eillish',number:'10',motion:'CD texture detail · portrait print',quality:'portrait',static:true,preview:'assets/portrait-dark.png'},
+ 'portrait-warm':{name:'Patrick Jane',number:'11',motion:'CD texture detail · portrait print',quality:'portrait',static:true,preview:'assets/portrait-warm.png'},
+ 'portrait-smile':{name:'The Mentalist',number:'12',motion:'CD texture detail · portrait print',quality:'portrait',static:true,preview:'assets/portrait-smile.png'},
+ 'portrait-tate':{name:'Tate Mcrae',number:'13',motion:'CD texture detail · portrait print',quality:'portrait',static:true,preview:'assets/portrait-tate.png'},
+ 'portrait-kakashi':{name:'Hatake Kakashi',number:'14',motion:'CD texture detail · portrait print',quality:'portrait',static:true,preview:'assets/portrait-kakashi.png'},
+ 'portrait-sharingan':{name:'Sharingan Kakashi',number:'15',motion:'CD texture detail · portrait print',quality:'portrait',static:true,preview:'assets/portrait-sharingan.png'}
 };
 const cache=new Map();
 function portraitTexture(id){
