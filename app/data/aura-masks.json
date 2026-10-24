@@ -1,7 +1,7 @@
 {
   "portrait-dark": {
     "file": "portrait-dark.aura.z",
-    "sha256": "f02af204d0843843687f2fbd9aa16b4e987e865f50ef2b754981dd856046952a",
+    "sha256": "eee3e17c47ab5d1b9a274014deb65e2e6dac3663154041804e799adf38716c0a",
     "bytes": 349525,
     "levels": [
       {
@@ -48,7 +48,7 @@
   },
   "portrait-warm": {
     "file": "portrait-warm.aura.z",
-    "sha256": "78756e8e0eea67d26c9a8328912b78978bba37cdc58a5c503b2a34377f2f49f0",
+    "sha256": "426ac05bcd6c4a4ef4a725990bc7db7c09e61364d1a9e55b39dfa19796d7255b",
     "bytes": 349525,
     "levels": [
       {
@@ -95,7 +95,7 @@
   },
   "portrait-smile": {
     "file": "portrait-smile.aura.z",
-    "sha256": "fa484c897c8651f1cffdaf273b763180b775bcfedcafa7541e757cb32a46e0d7",
+    "sha256": "4af12bedfc6ce3d4244286169a62e08e14122b2d591c41b3162ba85ca4594d16",
     "bytes": 349525,
     "levels": [
       {
@@ -142,7 +142,7 @@
   },
   "portrait-tate": {
     "file": "portrait-tate.aura.z",
-    "sha256": "09bec5d23df1f3de561f1035dc13ecfc88a3b2abddd4c472f32618594c13b058",
+    "sha256": "1605cbaef8c8667337e138ed5bb95b260a79e2c91bbcf62f18bf228fbb914db9",
     "bytes": 349525,
     "levels": [
       {
@@ -189,7 +189,7 @@
   },
   "portrait-kakashi": {
     "file": "portrait-kakashi.aura.z",
-    "sha256": "e14970164a2dbd2ae62adf177f7d83da1001e0166ee1b033cdf7e3faefe2a925",
+    "sha256": "2358b7ab9d8036f1d23d5caeef60db3e5896dc24be2c099e1625fbb29bb8bfa2",
     "bytes": 349525,
     "levels": [
       {
@@ -236,7 +236,7 @@
   },
   "portrait-sharingan": {
     "file": "portrait-sharingan.aura.z",
-    "sha256": "4deda47ef190ab0461bb173b5feae530bcf01190b1e66879a1bd8f5793907073",
+    "sha256": "854f82969bb73d54a4a60cbc3bdc0e6c75aa60613e58954c1cc06cbafde4b130",
     "bytes": 349525,
     "levels": [
       {

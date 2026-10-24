@@ -9,3 +9,15 @@ The generated diffuse textures retain the existing printed RGB blocks. Only BC3 
 Two alpha templates per portrait (512 and 1024) are cached and reused across the referenced diffuse textures, reducing generation time. Colors share identical model outputs and differ only in their shader constants. Internal variant model resources: 328; shader resources: 2. No original game archive or shader source is bundled.
 
 The UI keeps its original blue preview background around the transparent PNG, animates only drop shadows, and respects reduced-motion preferences for that preview. This is an illustrative preview, not a gameplay capture or a precise rendering of the game shader. Applying requires closing the game. Actual aura appearance, texture-LOD behavior and performance require in-game verification.
+
+## Rendering correction — 0.1.21
+
+The previous diffuse-alpha mask is removed. The new texture is an opaque rectangular atlas: the left half copies the v0.1.15 printed image blocks and the right half stores the independent grayscale silhouette mask. Every BC3 alpha block is 255 at every mip. Source portrait RGB blocks in the full-detail image half are preserved byte-for-byte. The detection marker is in the mask half, so no marker repair alters the portrait or its background. Original material files and the v0.1.15 mesh/UV projection are retained. The original no-aura profile digests still match v0.1.15.
+
+Aura image and mask reads use explicit LOD0 in the pixel shader; opaque image samples replace only the diffuse read. Original normal, roughness and construction-effect UVs are unchanged. The separate mask is decoded from RGB instead of alpha, avoiding transparent-texture classification and mixed mask/transparency reads. This is a preventative rendering change; the screenshot alone cannot prove which game pipeline behavior caused its flat appearance.
+
+The mask protects alpha above 2/255 with a two-pixel guard around hair and other fine edges. The outer band increases to 48 pixels at source size and fades near the portrait's cropped bottom edge. A layered rising pattern adds a soft colored veil and brighter emission/core, reducing the muddy flat outline. Foreground pixels receive no aura color. Existing natural hair colors are preserved; no source hair is recolored or regenerated.
+
+The additional sfx_diffuse_g95_2 HLSL path reads its diffuse map through sam_other0. It gains a declaration for the existing engine FrameTime clock, whose runtime binding on this shader still requires testing. Off, bubbles, wood and the Trunks loop are unchanged. Aura variants modify three shader resources instead of two. Atlas width doubles (1024×512 or 2048×1024), so aura texture memory increases; it is not an FPS optimization.
+
+Preview drop shadows are softer and have a light inner rim. They remain illustrative, not a precise gameplay rendering. Actual build detail, glow motion, hair edges and performance require an in-game check.

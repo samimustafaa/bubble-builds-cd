@@ -23,3 +23,5 @@ Apply with the game closed. Video loops always run; Surface animation does not p
 ### Portrait auras
 
 Choose a portrait, click one of the labeled color circles beneath the portrait gallery: **Electric Blue, Ice Cyan, Saiyan Gold, Fire Orange, Violet, Rose Pink or Emerald**, then Apply with the game closed. **Off** keeps the existing portrait appearance. Only the glow outside the portrait silhouette animates; the portrait stays still and the build base color is retained. The app remembers the last applied aura. The preview is an animated UI illustration of the chosen color; shader motion must be checked in game. Video loops are unchanged.
+
+Version 0.1.21 replaces the alpha-encoded aura with an opaque image/mask atlas, protects hair edges, softens the lower crop border and adds a brighter emission core. The no-aura portraits still match v0.1.15; their mesh, UV and base-color generator remain unchanged. Three build shader paths now support the aura. In-game appearance still needs testing.
