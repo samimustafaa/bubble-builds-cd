@@ -25,3 +25,12 @@ test('portrait paths fail closed when diffuse resources are missing or point out
 test('solid portrait presets retain the original build shaders',()=>{
  for(const id of Object.keys(PORTRAITS))assert.equal(p.patchShader(Buffer.from('//scene_cj\r\nfloat4 ps_main(PS_INPUT psIN) { float2 local_0; return final_color; }'),id),null);
 });
+
+test('Season 3 inspired metal replaces only build diffuse resources and preserves stock shaders and materials',()=>{
+ const {metalTexture}=require('../app/metals.cjs'),{decodeBlock,layout}=require('../app/portrait-print.cjs'),metal=metalTexture('season3metal');
+ for(const level of layout(metal))for(let o=level.o;o<level.o+Math.ceil(level.w/4)**2*16;o+=16){const pixels=decodeBlock(metal,o);for(let i=3;i<pixels.length;i+=4)assert.equal(pixels[i],255);}
+ const id=p.murmur(Buffer.from('structure\\wall.dds')),material=buildMaterial(),original=archive([[1,material],[id,portraitTexture('portrait-warm')],[3,Buffer.from('unrelated geometry and collision')]]),meta={originalSha256:p.sha(original),resourcesByPreset:{season3metal:1}};
+ const next=p.patchArchive(original,'model_regular.npk',meta,'season3metal'),entries=rawEntries(next);assert.deepEqual(entries.get(id),metal);assert.deepEqual(entries.get(1),material);assert.deepEqual(entries.get(3),rawEntries(original).get(3));
+ assert.equal(p.patchMaterial(material,'season3metal'),null);for(const prefix of ['scene_cj','scene_cj_pbr','sfx_diffuse_g95_2'])assert.equal(p.patchShader(Buffer.from('//'+prefix+'\r\nfloat4 ps_main(PS_INPUT psIN) { float2 local_0; return final_color; }'),'season3metal'),null);
+ assert.equal(p.PRESETS.season3metal.static,true);assert.throws(()=>metalTexture('bad'),/Unknown/);
+});
