@@ -1,0 +1,5 @@
+const {test}=require('node:test'),assert=require('node:assert/strict'),{instantShader,INSTANT}=require('../app/instant.cjs'),p=require('../app/patcher.cjs');
+test('Instant Builds fixes reveal progress without recoloring textures or changing level materials',()=>{
+ for(const kind of ['scene_cj','scene_cj_pbr']){const s='//'+kind+'\r\nfloat rongjiezhi;float AlphaMtl;float4 ps_main(PS_INPUT psIN){float4 final_color=tex2D(sam_diffuse,psIN.uv0);final_color.a=step(rongjiezhi,0.5f);return final_color;}';const out=instantShader(Buffer.from(s)).toString();assert(out.includes('step(1.0f,0.5f)'));assert(out.includes('final_color.a = saturate(AlphaMtl)'));assert(out.includes('float rongjiezhi;'));assert(out.includes('tex2D(sam_diffuse,psIN.uv0)'));}
+ const vertex='//scene_cj\r\nfloat world_create;PS_INPUT vs_main(VS_INPUT vsIN){float wobble=world_create;return out;}';assert(instantShader(Buffer.from(vertex)).toString().includes('wobble=0.0f'));assert.equal(instantShader(Buffer.from('//unrelated')),null);assert.equal(p.patchMaterial(Buffer.from('unrelated'),'instantbuilds'),null);assert(INSTANT.instantbuilds.static);assert(!p.PRESETS.season3metal);
+});

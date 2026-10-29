@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.24",
+  "version": "0.1.25",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -128,8 +128,8 @@
         "portrait-sharingan--aura-pink:still": "171adf80a2e324e0f78f5ba349843de78b0440456a3a6475145af64e3a82e42a",
         "portrait-sharingan--aura-green:animated": "171adf80a2e324e0f78f5ba349843de78b0440456a3a6475145af64e3a82e42a",
         "portrait-sharingan--aura-green:still": "171adf80a2e324e0f78f5ba349843de78b0440456a3a6475145af64e3a82e42a",
-        "season3metal:animated": "2ddf651264a6aa9a660fd630e804a021cbf853c7e9f5f46db7792d26f84bdece",
-        "season3metal:still": "2ddf651264a6aa9a660fd630e804a021cbf853c7e9f5f46db7792d26f84bdece"
+        "instantbuilds:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "instantbuilds:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       },
       "resourcesByPreset": {
         "portrait-dark": 328,
@@ -181,7 +181,7 @@
         "portrait-sharingan--aura-violet": 328,
         "portrait-sharingan--aura-pink": 328,
         "portrait-sharingan--aura-green": 328,
-        "season3metal": 6
+        "instantbuilds": 0
       }
     },
     "shader.npk": {
@@ -309,8 +309,8 @@
         "portrait-sharingan--aura-pink:still": "c6b0cdb86abdbb34dad684c2f52fd923715efdce3a009af34e4f239b7581ae59",
         "portrait-sharingan--aura-green:animated": "1eeecdbdf553750fe58cc28785421f17f0a450870b7fce2ad22836ac1c7c56a2",
         "portrait-sharingan--aura-green:still": "1eeecdbdf553750fe58cc28785421f17f0a450870b7fce2ad22836ac1c7c56a2",
-        "season3metal:animated": "e57edf443d695b8d839ccf24b7d9924abb9785c15f7a2762224bc2b9ca218484",
-        "season3metal:still": "e57edf443d695b8d839ccf24b7d9924abb9785c15f7a2762224bc2b9ca218484"
+        "instantbuilds:animated": "31443ba2c394c5481a0d0d905449f3c0540658593cf42af0a7daac972c44db42",
+        "instantbuilds:still": "31443ba2c394c5481a0d0d905449f3c0540658593cf42af0a7daac972c44db42"
       },
       "resourcesByPreset": {
         "portrait-dark": 0,
@@ -362,7 +362,7 @@
         "portrait-sharingan--aura-violet": 3,
         "portrait-sharingan--aura-pink": 3,
         "portrait-sharingan--aura-green": 3,
-        "season3metal": 2
+        "instantbuilds": 3
       }
     }
   }

@@ -25,10 +25,3 @@ test('portrait paths fail closed when diffuse resources are missing or point out
 test('solid portrait presets retain the original build shaders',()=>{
  for(const id of Object.keys(PORTRAITS))assert.equal(p.patchShader(Buffer.from('//scene_cj\r\nfloat4 ps_main(PS_INPUT psIN) { float2 local_0; return final_color; }'),id),null);
 });
-
-test('Season 3 imports retain original geometry, UVs, materials and shaders except verified replacement IDs',()=>{
- const id=p.murmur(Buffer.from('structure\\wall.dds')),material=buildMaterial(),replacement=Buffer.from('imported fixture texture'),original=archive([[1,material],[id,portraitTexture('portrait-warm')],[3,Buffer.from('original geometry UV and collision')]]),meta={originalSha256:p.sha(original),resourcesByPreset:{season3metal:1}},pack={'model_regular.npk':new Map([[id,replacement]])};
- assert.throws(()=>p.patchArchive(original,'model_regular.npk',meta,'season3metal'),/Import your/);
- const entries=rawEntries(p.patchArchive(original,'model_regular.npk',meta,'season3metal',true,pack));assert.deepEqual(entries.get(id),replacement);assert.deepEqual(entries.get(1),material);assert.deepEqual(entries.get(3),rawEntries(original).get(3));
- assert.equal(p.patchMaterial(material,'season3metal'),null);assert.equal(p.patchShader(Buffer.from('//scene_cj\r\nfloat4 ps_main(PS_INPUT psIN) { float2 local_0; return final_color; }'),'season3metal'),null);
-});
