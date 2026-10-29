@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.26",
+  "version": "0.1.27",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -309,8 +309,8 @@
         "portrait-sharingan--aura-pink:still": "c6b0cdb86abdbb34dad684c2f52fd923715efdce3a009af34e4f239b7581ae59",
         "portrait-sharingan--aura-green:animated": "1eeecdbdf553750fe58cc28785421f17f0a450870b7fce2ad22836ac1c7c56a2",
         "portrait-sharingan--aura-green:still": "1eeecdbdf553750fe58cc28785421f17f0a450870b7fce2ad22836ac1c7c56a2",
-        "instantbuilds:animated": "31443ba2c394c5481a0d0d905449f3c0540658593cf42af0a7daac972c44db42",
-        "instantbuilds:still": "31443ba2c394c5481a0d0d905449f3c0540658593cf42af0a7daac972c44db42"
+        "instantbuilds:animated": "721a92453eb506fb7bd81012f7bde5fe8deeb06bdcf2dc240d44c3b1d89e6c44",
+        "instantbuilds:still": "721a92453eb506fb7bd81012f7bde5fe8deeb06bdcf2dc240d44c3b1d89e6c44"
       },
       "resourcesByPreset": {
         "portrait-dark": 0,
