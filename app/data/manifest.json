@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "0.1.25",
+  "version": "0.1.26",
   "experimental": true,
   "archives": {
     "model_regular.npk": {
@@ -128,8 +128,8 @@
         "portrait-sharingan--aura-pink:still": "171adf80a2e324e0f78f5ba349843de78b0440456a3a6475145af64e3a82e42a",
         "portrait-sharingan--aura-green:animated": "171adf80a2e324e0f78f5ba349843de78b0440456a3a6475145af64e3a82e42a",
         "portrait-sharingan--aura-green:still": "171adf80a2e324e0f78f5ba349843de78b0440456a3a6475145af64e3a82e42a",
-        "instantbuilds:animated": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "instantbuilds:still": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        "instantbuilds:animated": "31f0eaf9f7cf0b36e9cf737afe09bfa92bf476f4533630e05484d33abe5d84fb",
+        "instantbuilds:still": "31f0eaf9f7cf0b36e9cf737afe09bfa92bf476f4533630e05484d33abe5d84fb"
       },
       "resourcesByPreset": {
         "portrait-dark": 328,
@@ -181,7 +181,7 @@
         "portrait-sharingan--aura-violet": 328,
         "portrait-sharingan--aura-pink": 328,
         "portrait-sharingan--aura-green": 328,
-        "instantbuilds": 0
+        "instantbuilds": 7
       }
     },
     "shader.npk": {

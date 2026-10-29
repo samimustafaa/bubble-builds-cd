@@ -1,5 +1,5 @@
 "use strict";
-const INSTANT={instantbuilds:{name:'Instant Builds — TEST',number:'17',motion:'No build reveal · original level colors',quality:'instant',static:true,preview:'assets/instantbuilds-sample.jpg'}};
+const INSTANT={instantbuilds:{name:'Instant Builds — TEST',number:'17',motion:'Finished surface · no reveal · level colors',quality:'instant',static:true,preview:'assets/instantbuilds-sample.jpg'}};
 function instantShader(raw){
  const s=raw.toString('utf8');if(!/^\/\/scene_cj(?:_pbr)?\r/.test(s))return null;
  const pixel=s.indexOf('float4 ps_main(PS_INPUT psIN)'),vertex=s.indexOf('PS_INPUT vs_main(VS_INPUT vsIN)');

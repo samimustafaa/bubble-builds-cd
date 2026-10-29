@@ -25,3 +25,8 @@ test('portrait paths fail closed when diffuse resources are missing or point out
 test('solid portrait presets retain the original build shaders',()=>{
  for(const id of Object.keys(PORTRAITS))assert.equal(p.patchShader(Buffer.from('//scene_cj\r\nfloat4 ps_main(PS_INPUT psIN) { float2 local_0; return final_color; }'),id),null);
 });
+
+test('Instant Builds uses the finished diffuse for each matching level without remapping geometry',()=>{
+ const items=[[1,buildMaterial()],[3,Buffer.from('original edited geometry and UVs')]],expected=[];for(let level=1;level<=5;level++){const source=p.murmur(Buffer.from('structure\\floor_lv'+level+'_pbr_moden.dds')),target=p.murmur(Buffer.from('structure_jj\\structure_lv'+level+'.dds')),raw=Buffer.from('finished level '+level);items.push([source,raw],[target,Buffer.from('construction atlas '+level)]);expected.push([target,source,raw]);}
+ const original=archive(items),meta={originalSha256:p.sha(original),resourcesByPreset:{instantbuilds:5}},out=rawEntries(p.patchArchive(original,'model_regular.npk',meta,'instantbuilds'));for(const [target,source,raw]of expected){assert.deepEqual(out.get(target),raw);assert.deepEqual(out.get(source),raw);}assert.deepEqual(out.get(3),items[1][1]);assert.deepEqual(out.get(1),items[0][1]);
+});
