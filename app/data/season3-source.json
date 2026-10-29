@@ -1,0 +1,49 @@
+{
+  "version": "3.0.108",
+  "archives": {
+    "model_regular.npk": {
+      "sha256": "60757e4a977f0e317e39c753fdde94d0d883eb0cffb6fc967229ea3aedfe4d0f",
+      "bytes": 5560004,
+      "resources": {
+        "166471498": {
+          "sha256": "e60a37f5ed9657c0426db181c4aadbdff96d6b97bb6f162042a431fc715c26f1",
+          "bytes": 1215
+        },
+        "475445366": {
+          "sha256": "c3268f48b46507acc28f965490cdd10c1b2a3332410abca74aa73ac28c8b81a0",
+          "bytes": 262272
+        },
+        "935409291": {
+          "sha256": "bee50180be9d84d103a9208819cb3352bbf3a4460a47590c26672010dcc5d769",
+          "bytes": 1398256
+        },
+        "1115981870": {
+          "sha256": "020d1abea414cb0f08748ed4b1ebf4dc5bb4a4547c42f22d0ad437e586e4d1a9",
+          "bytes": 262272
+        },
+        "3405227961": {
+          "sha256": "c3268f48b46507acc28f965490cdd10c1b2a3332410abca74aa73ac28c8b81a0",
+          "bytes": 262272
+        },
+        "4082270502": {
+          "sha256": "020d1abea414cb0f08748ed4b1ebf4dc5bb4a4547c42f22d0ad437e586e4d1a9",
+          "bytes": 262272
+        }
+      }
+    },
+    "shader.npk": {
+      "sha256": "881ee8635b215e0387d1828a91189d8a7f0ae8851521474c51df2e16b3669b2a",
+      "bytes": 7314984,
+      "resources": {
+        "869076852": {
+          "sha256": "5afa67ae6444c411a26be698c2cbd2607f21a746af1b33533216d2c077fdc5b0",
+          "bytes": 18360
+        },
+        "3236391106": {
+          "sha256": "c7bce38691e0f1f9b4b9cf9859164b679ec7f1b8156911c2890ff1e5f7594f47",
+          "bytes": 7942
+        }
+      }
+    }
+  }
+}

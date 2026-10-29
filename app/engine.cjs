@@ -2,7 +2,7 @@
 const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto');
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const {patchArchive,mobileConfig,PRESETS}=require('./patcher.cjs');
-async function localBuilder({source,manifest,preset,animated=true}){const output={'neox.xml':mobileConfig(source['neox.xml'])};for(const name of ['model_regular.npk','shader.npk'])output['res/'+name]=preset!=='mobile'?patchArchive(source['res/'+name],name,manifest.archives[name],preset,animated):source['res/'+name];return output;}
+async function localBuilder({source,manifest,preset,animated=true,season3File}){let season3=null;if(preset==='season3metal'){try{const stat=await fs.stat(season3File);if(stat.size>8*1024*1024)throw Error('Invalid Season 3 import size');season3=require('./season3.cjs').validatePack(JSON.parse(await fs.readFile(season3File,'utf8')));}catch(e){if(e.code==='ENOENT')throw Error('Import your 3.0.108 model and shader files first.');throw e;}}const output={'neox.xml':mobileConfig(source['neox.xml'])};for(const name of ['model_regular.npk','shader.npk'])output['res/'+name]=preset!=='mobile'?patchArchive(source['res/'+name],name,manifest.archives[name],preset,animated,season3):source['res/'+name];return output;}
 const TARGETS=['neox.xml','res/model_regular.npk','res/shader.npk'];
 async function atomic(file,data){
  await fs.mkdir(path.dirname(file),{recursive:true});const tmp=file+'.'+crypto.randomUUID()+'.tmp';
@@ -66,7 +66,7 @@ class BuildEngine{
    await this.compatible(root,r);const m=await this.manifest(),source={};
    if(r)await this.verifyBackups(root,r);
    for(let i=0;i<TARGETS.length;i++)source[TARGETS[i]]=r?(r.files[i].exists?await fs.readFile(path.join(this.dir(root),i+'.bin')):null):await optional(path.join(root,TARGETS[i]));
-   progress('Generating your selected look locally…');const payload=await this.builder({source,manifest:m,preset,animated});
+   progress('Generating your selected look locally…');const payload=await this.builder({source,manifest:m,preset,animated,season3File:path.join(this.userDir,'season3-import.json')});
    if(!payload||Object.keys(payload).length!==TARGETS.length||TARGETS.some(rel=>!Buffer.isBuffer(payload[rel])))throw Error('The generated patch is incomplete.');
    progress('Saving and verifying your original files…');r=await this.createBackup(root);await this.compatible(root,r);
    r.pending=true;await this.save(root,r);
